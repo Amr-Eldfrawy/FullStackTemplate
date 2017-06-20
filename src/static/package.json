@@ -4,10 +4,10 @@
   "description": "Fullstack Template",
   "main": "index.js",
   "scripts": {
-    "build": "node_modules/.bin/webpack -p --progress --config ./webpack.config.js",
-    "dev-build": "node_modules/.bin/webpack --progress -d --config ./webpack.config.js",
+    "build": "webpack -p --progress --config webpack.config.js",
+    "dev-build": "webpack --progress -d --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "node_modules/.bin/webpack --progress -d --config ./webpack.config.js --watch"
+    "watch": "webpack --progress -d --config webpack.config.js --watch"
   },
   "keywords": [
     "fullstack",
@@ -17,8 +17,12 @@
     "npm",
     "webpack"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angineering/FullStackTemplate.git"
+  },
   "author": "Angela Branaes",
-  "license": "ISC",
+  "license": "MIT",
   "babel": {
     "presets": [
       "es2015",
@@ -30,6 +34,10 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "webpack": "^2.6.1"
+    "npm-check-updates": "^2.15.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
   }
 }
