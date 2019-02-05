@@ -2,6 +2,8 @@ from flask import Flask, render_template, jsonify, request , make_response
 from flask_pymongo import PyMongo
 import jwt
 import datetime
+from werkzeug.security import generate_password_hash, \
+     check_password_hash
 
 secert_key = "asdhiu13py9eqwdpaweqwe"
 
@@ -27,7 +29,7 @@ def token_required(f):
             data = jwt.decode(token, secert_key)
 
             users_db = mongo.db.users
-            user = users_db.find_one({'name': data['public_id']})
+            user = users_db.find_one({'_id': data['public_id']})
         except:
             return jsonify({'message' : 'Token is invalid'}), 401
 
@@ -36,94 +38,49 @@ def token_required(f):
     return decorated
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/hello") # take note of this decorator syntax, it's a common pattern
-def hello():
-    return "Hello World!"
-
-
-@app.route('/framework', methods=['GET'])
+@app.route("/homepage")
 @token_required
-def get_all_frameworks(user):
-    framework = mongo.db.framework
-
-    output = []
-
-    for q in framework.find():
-        output.append({'name' : q['name'], 'language' : q['language']})
-
-    return jsonify({'result' : output})
-
-
-@app.route('/framework', methods=['POST'])
-def add_framework():
-    framework = mongo.db.framework
-
-    name = request.json['name']
-    language = request.json['language']
-
-    framework_id = framework.insert({'name' : name, 'language' : language})
-    new_framework = framework.find_one({'_id' : framework_id})
-
-    # output = {'name' : new_framework['name'], 'language' : new_framework['language']}
-
-    return jsonify({'result' : new_framework})
-
-
-@app.route('/framework/<name>', methods=['GET'])
-def get_one_framework(name):
-    framework = mongo.db.framework
-
-    q = framework.find_one({'name' : name})
-
-    if q:
-        output = {'name' : q['name'], 'language' : q['language']}
-    else:
-        output = 'No results found'
-
-    return jsonify({'result': output})
+def homepage(user):
+    return render_template("index.html")
 
 
 @app.route('/register', methods=['POST'])
 def register():
-    users = mongo.db.users
-
     name = request.json['name']
     password = request.json['password']
 
-    user_id = users.insert({'name': name, 'password': password})
-    user_id = users.find_one({'_id': user_id})
+    users_db = mongo.db.users
 
-    output = {'name': user_id['name'], 'password': user_id['password']}
+    insert_one_result = users_db.insert_one({'name': name, 'password': generate_password_hash(password)})
+
+    if insert_one_result.acknowledged is False:
+        return make_response("couldn't create a new user. please choose a different username", 400)
+
+    output = {'id': str(insert_one_result.inserted_id)}
 
     return jsonify({'result': output})
 
 
 @app.route('/login')
 def login():
-    users = mongo.db.users
-    auth = request.authorization
+    users_db = mongo.db.users
+    auth_header = request.authorization
 
-    if not auth or not auth.username or not auth.password:
+    if not auth_header or not auth_header.username or not auth_header.password:
         return make_response("couldn't verify", 401)
 
-    user = users.find_one({'name': auth.username})
-
+    user = users_db.find_one({'name': auth_header.username})
     if not user:
         return make_response("couldn't verify", 401)
 
-    # need to has password using check_password_hash to prevent saving plain text
-    if user['password']== auth.password:
-        token = jwt.encode({'public_id' : user['name'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=10)}
+    if check_password_hash(user['password'], auth_header.password):
+        token = jwt.encode({'public_id' : str(user['_id']), 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=10)}
                            , secert_key)
         return jsonify({'token' : token.decode('UTF-8')})
 
     # need to add publickey and private key while generating tokens
     return make_response("couldn't verify", 401)
+
 
 if __name__ == "__main__":
     app.run()
