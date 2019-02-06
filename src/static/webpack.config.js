@@ -1,9 +1,11 @@
 const webpack = require('webpack');
+const path = require('path');
 
-const config = {
+module.exports = {
     entry:  __dirname + '/js/index.jsx',
+    mode: 'development',
     output: {
-        path: __dirname + '/dist',
+        path: path.join(__dirname, '/dist'),
         filename: 'bundle.js',
     },
     resolve: {
@@ -15,9 +17,13 @@ const config = {
 				test: /\.jsx?/, 
 				exclude: /node_modules/,
 				use: 'babel-loader'
-			}
-        ]
+            }
+        ]  
+    },
+    watch:true,
+    devServer: {
+        contentBase: path.join(__dirname, '/dist'),
+        port: 9000
     }
 };
 
-module.exports = config;
