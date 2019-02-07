@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-    entry:  __dirname + '/js/index.jsx',
+    entry: __dirname + '/js/index.jsx',
     mode: 'development',
     output: {
         path: path.join(__dirname, '/dist'),
@@ -14,13 +14,20 @@ module.exports = {
     module: {
         rules: [
             {
-				test: /\.jsx?/, 
-				exclude: /node_modules/,
-				use: 'babel-loader'
+                test: /\.jsx?/,
+                exclude: /node_modules/,
+                use: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' }
+                ]
             }
-        ]  
+        ]
     },
-    watch:true,
+    watch: true,
     devServer: {
         contentBase: path.join(__dirname, '/dist'),
         port: 9000
