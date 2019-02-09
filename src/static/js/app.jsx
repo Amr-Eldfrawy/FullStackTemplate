@@ -58,6 +58,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     />
 );
 
+// const PublicRoute = ({ component: Component, ...rest }) => (
+//     <Route
+//         {...rest}
+//         render={props =>
+//             fakeAuth.authenticated
+//                 ? (<Dashboard {...props} />)
+//                 :
+//                 (<Redirect to={{
+//                     pathname: '/login',
+//                     state: { from: rest.path }
+//                 }} Î />)
+//         }
+//     />
+// );
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -106,8 +121,20 @@ export default class App extends React.Component {
 
                     <AuthButton />
                     <main>
-                        <Route path="/login" component={(props) => (<PMForm {...props} header={<h2>Login</h2>} />)} />
-                        <Route path="/register" render={(props) => (<PMForm {...props} header={<h2>Register</h2>} />)} />
+                        <Route path="/login" component={(props) => {
+                            if (fakeAuth.authenticated) {
+                                return (<Redirect to='/dashboard'/>);
+                            } else {
+                                return (<PMForm {...props} header={<h2>Login</h2>} />)
+                            }
+                        }} />
+                         <Route path="/register" component={(props) => {
+                            if (fakeAuth.authenticated) {
+                                return (<Redirect to='/dashboard'/>);
+                            } else {
+                                return (<PMForm {...props} header={<h2>Register</h2>} />)
+                            }
+                        }} />
                         <PrivateRoute path='/dashboard' component={Dashboard} />
                     </main>
                 </div>
@@ -196,7 +223,7 @@ class PMForm extends React.Component {
         const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
         this.setState({ validPassword: passwordRegex.test(password) });
     }
-    
+
     render() {
 
         const redirectToReferrer = this.state.redirectToReferrer
