@@ -12,27 +12,26 @@ import {
     Collapse
 } from 'reactstrap'
 
-import {AuthenticationService} from './auth'
 import Dashboard from './dashboard'
 import PMForm from './pmForm'
 
 import './App.css';
 
 // todo handle that UI 
-let AuthButton = withRouter(({ history }) => {
+let SignOut = withRouter(({ history, signout }) => {
     return (
-        AuthenticationService.authenticated === true
-            ? (<p>
-                welcome ! <button onClick={() => { AuthenticationService.signout(() => history.push('/')) }}> Sign out </button>
-            </p>) :
-            (<p> your are not loged in </p>));
+        <NavItem>
+            <NavLink onClick={() => { signout(() => history.push('/login')) }}> LogOut </NavLink>
+        </NavItem>
+    );
+
 })
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, ...rest, authenticated }) => (
     <Route
         {...rest}
         render={props =>
-            AuthenticationService.authenticated
+            authenticated
                 ? (<Component {...props} />)
                 :
                 (<Redirect to={{
@@ -47,52 +46,71 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            jwt_token: null
+            jwt_token: null,
+            authenticated: false
         }
+        this.authenticate = this.authenticate.bind(this);
+        this.signout = this.signout.bind(this);
+    }
+
+    authenticate(f) {
+        this.setState({ authenticated: true });
+        setTimeout(f, 100);
+    }
+
+    signout(f) {
+        this.setState({ authenticated: false });
+        setTimeout(f, 100);
     }
 
     render() {
+        let pmNavBar =
+            <Nav className="ml-auto" navbar>
+                <NavItem>
+                    <NavLink> <Link to={'/login'}> Sign In</Link></NavLink>
+                </NavItem>
+
+                <NavItem>
+                    <NavLink>  <Link to={'/register'}>Register</Link></NavLink>
+                </NavItem>
+            </Nav >
+
+        if (this.state.authenticated) {
+            pmNavBar =
+                <Nav className="ml-auto" navbar>
+                    <NavItem>
+                        <NavLink> <Link to={'/dashboard'}>Dashboard</Link></NavLink>
+                    </NavItem>
+
+                    <SignOut signout={this.signout} />
+                </Nav >
+        }
         return (
             <Router>
                 <div>
                     <Navbar color="light" light expand="md">
                         <NavbarBrand> HU Password Manager</NavbarBrand>
-
                         <Collapse navbar>
-                            <Nav className="ml-auto" navbar>
-                                <NavItem>
-                                    <NavLink> <Link to={'/login'}> Sign In</Link></NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink>  <Link to={'/register'}>Register</Link></NavLink>
-                                </NavItem>
-
-                                <NavItem>
-                                    <NavLink> <Link to={'/dashboard'}>Dashboard</Link></NavLink>
-                                </NavItem>
-
-                            </Nav>
+                            {pmNavBar}
                         </Collapse>
                     </Navbar>
 
-                    <AuthButton />
                     <main>
                         <Route path="/login" component={(props) => {
-                            if (AuthenticationService.authenticated) {
-                                return (<Redirect to='/dashboard'/>);
+                            if (this.state.authenticated) {
+                                return (<Redirect to='/dashboard' />);
                             } else {
-                                return (<PMForm {...props} header={<h2>Login</h2>} />)
+                                return (<PMForm authenticate={this.authenticate} {...props} header={<h2>Login</h2>} />)
                             }
                         }} />
-                         <Route path="/register" component={(props) => {
-                            if (AuthenticationService.authenticated) {
-                                return (<Redirect to='/dashboard'/>);
+                        <Route path="/register" component={(props) => {
+                            if (this.state.authenticated) {
+                                return (<Redirect to='/dashboard' />);
                             } else {
-                                return (<PMForm {...props} header={<h2>Register</h2>} />)
+                                return (<PMForm authenticate={this.authenticate} {...props} header={<h2>Register</h2>} />)
                             }
                         }} />
-                        <PrivateRoute path='/dashboard' component={Dashboard} />
+                        <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} />
                     </main>
                 </div>
             </Router>

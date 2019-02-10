@@ -6,7 +6,6 @@ import {
     Button,
 } from 'reactstrap';
 import {Redirect} from 'react-router-dom'
-import {AuthenticationService} from './auth'
 
 export default class PMForm extends React.Component {
     constructor(props) {
@@ -20,9 +19,8 @@ export default class PMForm extends React.Component {
     }
 
     login() {
-        AuthenticationService.authenticate(() => {
-            this.setState({ redirectToReferrer: true })
-        })
+        this.props.authenticate();
+        this.setState({ redirectToReferrer: true })
     }
 
 
