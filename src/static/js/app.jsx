@@ -9,7 +9,8 @@ import {
     Nav,
     NavItem,
     NavLink,
-    Collapse
+    Collapse,
+    Alert
 } from 'reactstrap'
 
 import Dashboard from './dashboard'
@@ -22,7 +23,7 @@ import { ApiHandler } from "./api_handler";
 let SignOut = withRouter(({ history, signout }) => {
     return (
         <NavItem>
-            <NavLink onClick={() => { signout(() => history.push('/login')) }}> LogOut </NavLink>
+            <NavLink onClick={() => { signout(() => history.push('/')) }}> LogOut </NavLink>
         </NavItem>
     );
 
@@ -36,7 +37,7 @@ const PrivateRoute = ({ component: Component, ...rest, authenticated, data }) =>
                 ? (<Component data={data} {...props} />)
                 :
                 (<Redirect to={{
-                    pathname: '/login',
+                    pathname: '/',
                     state: { from: rest.path }
                 }} Î />)
         }
@@ -49,25 +50,27 @@ export default class App extends React.Component {
         this.dashboardData = null
         this.state = {
             jwt_token: null,
-            authenticated: false
+            authenticated: false,
+            alertInfo: null
         }
         this.authenticate = this.authenticate.bind(this);
         this.signout = this.signout.bind(this);
+        this.onAlertDismiss = this.onAlertDismiss.bind(this);
     }
 
-    authenticate(username, password) {
+    async authenticate(username, password) {
         // make call using user usernme and password 
         // if succss register token and redirect to dashboard with all loaded data
         //  if falied alert thhat this is wrong credenitals 
-        let jwt_token = ApiHandler.callSignin(username, password)
-        console.log("jwt" + jwt_token);
-        if(jwt_token) {
+        let response = await ApiHandler.callSignin(username, password)
+
+        if (response.status) {
+            this.dashboardData = await ApiHandler.callGetCredentials(response.jwt_token)
             this.setState({ authenticated: true });
-            this.dashboardData = ApiHandler.callGetCredentials(jwt_token)
-            // console.log(dashboardData);
-        } else{
-            alert('faild to login. please check your credentials');
-        }        
+            console.log(this.dashboardData);
+        } else {
+           this.setState({alertInfo: response.message})
+        }
 
     }
 
@@ -76,12 +79,16 @@ export default class App extends React.Component {
         setTimeout(f, 100);
     }
 
+    onAlertDismiss() {
+        this.setState({ alertInfo: null });
+    }
+
     render() {
         // clean this a little 
         let pmNavBar =
             <Nav className="ml-auto" navbar>
                 <NavItem>
-                    <NavLink> <Link to={'/login'}> Sign In</Link></NavLink>
+                    <NavLink> <Link to={'/'}> Sign In</Link></NavLink>
                 </NavItem>
 
                 <NavItem>
@@ -110,8 +117,12 @@ export default class App extends React.Component {
                     </Navbar>
 
                     <main>
+                        <Alert color="info" isOpen={(!this.state.alertInfo) ? false : true} toggle={this.onAlertDismiss}>
+                            {this.state.alertInfo}
+                        </Alert>
                         {/* clean this a litte */}
-                        <Route path="/login" component={(props) => {
+
+                        <Route exact path="/" component={(props) => {
                             if (this.state.authenticated) {
                                 return (<Redirect to='/dashboard' />);
                             } else {
@@ -125,7 +136,7 @@ export default class App extends React.Component {
                                 return (<PMForm authenticate={this.authenticate} {...props} header={<h2>Register</h2>} />)
                             }
                         }} />
-                        <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} data={this.dashboardData}/>
+                        <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} data={this.dashboardData} />
                     </main>
                 </div>
             </Router>

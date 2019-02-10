@@ -37,30 +37,30 @@ export default class PMForm extends React.Component {
     validateUserName(e) {
         const userName = e.target.value;
 
-        console.log(userName.length)
-        if (!userName || userName.length == 0 || userName.length < 5) {
-            this.setState({ validUserName: false });
-            return
-        }
+        // console.log(userName.length)
+        // if (!userName || userName.length == 0 || userName.length < 5) {
+        //     this.setState({ validUserName: false });
+        //     return
+        // }
 
-        // should only contains alphanumeric characters
-        const usernameRegex = /^[a-zA-Z0-9]+$/;
-        this.setState({ validUserName: usernameRegex.test(userName) });
+        // // should only contains alphanumeric characters
+        // const usernameRegex = /^[a-zA-Z0-9]+$/;
+        // this.setState({ validUserName: usernameRegex.test(userName) });
         this.usernameValue = userName;
     }
 
     validatePassword(e) {
         const password = e.target.value;
 
-        if (!password || password.length == 0) {
-            this.setState({ validPassword: false });
-        }
+        // if (!password || password.length == 0) {
+        //     this.setState({ validPassword: false });
+        // }
 
-        // https://www.thepolyglotdeveloper.com/2015/05/use-regex-to-test-password-strength-in-javascript/
-        // The string must contain at least 1 numeric character, 1 uppercase character, one special character
-        // , alphabetical character and eight characters or longer
-        const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-        this.setState({ validPassword: passwordRegex.test(password) });
+        // // https://www.thepolyglotdeveloper.com/2015/05/use-regex-to-test-password-strength-in-javascript/
+        // // The string must contain at least 1 numeric character, 1 uppercase character, one special character
+        // // , alphabetical character and eight characters or longer
+        // const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        // this.setState({ validPassword: passwordRegex.test(password) });
 
         this.passwordValue = password;
     }

@@ -2,11 +2,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack -p --progress --config webpack.config.js",
-    "dev-build": "webpack --progress -d --config webpack.config.js",
+    "build": "webpack --config webpack.config.js && python ../server/server.py",
     "watch": "webpack --progress -d --config webpack.config.js --watch",
     "clean": "rm -rf node_modules/ && npm install",
-    "start": "webpack-dev-server --config webpack.config.js --hot"
+    "start": "webpack-dev-server --watch --config webpack.config.js --hot"
   },
   "babel": {
     "presets": [

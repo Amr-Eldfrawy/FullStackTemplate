@@ -4,9 +4,14 @@ import jwt
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
+import os
+from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
-private_key = open('jwt-key').read()
-public_key = open('jwt-key.pub').read()
+dirname = os.path.dirname(__file__)
+
+private_key = open(os.path.join(dirname,'jwt-key')).read()
+public_key = open(os.path.join(dirname, 'jwt-key.pub')).read()
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
@@ -40,9 +45,8 @@ def token_required(f):
     return decorated
 
 
-@app.route("/homepage")
-@token_required
-def homepage(user):
+@app.route("/")
+def index():
     return render_template("index.html")
 
 
