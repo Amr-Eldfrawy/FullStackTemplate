@@ -50,6 +50,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/getCredentials', methods=['POST'])
+@token_required
+def get_credentials(user):
+    return "data for user " + user;
+
+
 @app.route('/register', methods=['POST'])
 def register():
     name = request.json['name']

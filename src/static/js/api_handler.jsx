@@ -27,11 +27,26 @@ const ApiHandler = {
         }
 
     },
+    // todo 
     async callGetCredentials(jwt_token) {
-        console.log("received jwt_token" + jwt_token);
-        console.log('getting user data');
+        return { status: true, dashboardData: 'my data' }
+    },
+    async callRegister(username, password) {
+        let response = await fetch('/register', {
+            "crossDomain": true,
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache",
+            },
+            "processData": false,
+            "body": JSON.stringify({ name: username, password: password })
+        })
+        if (response.ok) {
+            return { message: 'An account was created. please sign in' }
 
-        return "my data"
+        }
+        return { message: 'this account already exist' }
     }
 }
 

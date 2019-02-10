@@ -5,10 +5,10 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 export default class PMForm extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.usernameValue = null
@@ -22,14 +22,14 @@ export default class PMForm extends React.Component {
         this.login = this.login.bind(this);
     }
 
-    login() {
-        if(this.usernameValue && this.passwordValue && 
+    async login() {
+        if (this.usernameValue && this.passwordValue &&
             this.state.validUserName && this.state.validPassword) {
-            this.props.authenticate(this.usernameValue, this.passwordValue);
+            this.props.authFn(this.usernameValue, this.passwordValue);
         } else {
             alert("please enter valid username and password")
         }
-        
+
         this.setState({ redirectToReferrer: true })
     }
 

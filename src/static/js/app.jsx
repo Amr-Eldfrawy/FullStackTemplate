@@ -56,27 +56,36 @@ export default class App extends React.Component {
         this.authenticate = this.authenticate.bind(this);
         this.signout = this.signout.bind(this);
         this.onAlertDismiss = this.onAlertDismiss.bind(this);
+        this.register = this.register.bind(this);
     }
 
     async authenticate(username, password) {
         // make call using user usernme and password 
         // if succss register token and redirect to dashboard with all loaded data
         //  if falied alert thhat this is wrong credenitals 
-        let response = await ApiHandler.callSignin(username, password)
+        let callSigninResponse = await ApiHandler.callSignin(username, password)
 
-        if (response.status) {
-            this.dashboardData = await ApiHandler.callGetCredentials(response.jwt_token)
-            this.setState({ authenticated: true });
-            console.log(this.dashboardData);
+        if (callSigninResponse.status) {
+            let callGetCredentialsResponse = await ApiHandler.callGetCredentials(callSigninResponse.jwt_token)
+
+            if (callGetCredentialsResponse.status) {
+                // this.dashboardData = callGetCredentialsResponse.dashboardData;
+                this.setState({ authenticated: true });
+            }
+
         } else {
-           this.setState({alertInfo: response.message})
+            this.setState({ alertInfo: response.message })
         }
 
     }
 
-    signout(f) {
+    signout() {
         this.setState({ authenticated: false });
-        setTimeout(f, 100);
+    }
+
+    async register(username, password) {
+        let callRegisterCallResponse = await ApiHandler.callRegister(username, password)
+        this.setState({ alertInfo: callRegisterCallResponse.message })
     }
 
     onAlertDismiss() {
@@ -117,7 +126,7 @@ export default class App extends React.Component {
                     </Navbar>
 
                     <main>
-                        <Alert color="info" isOpen={(!this.state.alertInfo) ? false : true} toggle={this.onAlertDismiss}>
+                        <Alert color="info" isOpen={(!this.state.alertInfo) ? false : true} toggle={this.onAlertDismiss} fade={false}>
                             {this.state.alertInfo}
                         </Alert>
                         {/* clean this a litte */}
@@ -126,14 +135,14 @@ export default class App extends React.Component {
                             if (this.state.authenticated) {
                                 return (<Redirect to='/dashboard' />);
                             } else {
-                                return (<PMForm authenticate={this.authenticate} {...props} header={<h2>Login</h2>} />)
+                                return (<PMForm authFn={this.authenticate} {...props} header={<h2>Login</h2>} />)
                             }
                         }} />
                         <Route path="/register" component={(props) => {
                             if (this.state.authenticated) {
                                 return (<Redirect to='/dashboard' />);
                             } else {
-                                return (<PMForm authenticate={this.authenticate} {...props} header={<h2>Register</h2>} />)
+                                return (<PMForm authFn={this.register} {...props} header={<h2>Register</h2>} />)
                             }
                         }} />
                         <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} data={this.dashboardData} />
