@@ -3,7 +3,7 @@ import React from "react";
 export default class Dashboard extends React.Component {
     render() {
         return (
-                <h1> protected resource </h1>
+                <h1> protected resource : {this.props.data} </h1>
         );
     }
 

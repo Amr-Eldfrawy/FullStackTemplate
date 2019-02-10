@@ -8,8 +8,12 @@ import {
 import {Redirect} from 'react-router-dom'
 
 export default class PMForm extends React.Component {
+    
     constructor(props) {
         super(props);
+        this.usernameValue = null
+        this.passwordValue = null
+
         this.state = {
             validUserName: true,
             validPassword: true,
@@ -19,7 +23,13 @@ export default class PMForm extends React.Component {
     }
 
     login() {
-        this.props.authenticate();
+        if(this.usernameValue && this.passwordValue && 
+            this.state.validUserName && this.state.validPassword) {
+            this.props.authenticate(this.usernameValue, this.passwordValue);
+        } else {
+            alert("please enter valid username and password")
+        }
+        
         this.setState({ redirectToReferrer: true })
     }
 
@@ -36,6 +46,7 @@ export default class PMForm extends React.Component {
         // should only contains alphanumeric characters
         const usernameRegex = /^[a-zA-Z0-9]+$/;
         this.setState({ validUserName: usernameRegex.test(userName) });
+        this.usernameValue = userName;
     }
 
     validatePassword(e) {
@@ -50,6 +61,8 @@ export default class PMForm extends React.Component {
         // , alphabetical character and eight characters or longer
         const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
         this.setState({ validPassword: passwordRegex.test(password) });
+
+        this.passwordValue = password;
     }
 
     render() {
