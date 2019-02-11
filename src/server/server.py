@@ -6,6 +6,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import traceback
 import os
 from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+from services.blacklist_service import BlackListService
+
+blacklist_service = BlackListService()
+
 jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
 dirname = os.path.dirname(__file__)
@@ -31,6 +35,9 @@ def token_required(f):
         if not token:
             return jsonify({'message': 'Token is missing'}), 401
 
+        if blacklist_service.is_black_listed(token):
+            return jsonify({'message': 'Token is invalid'}), 401
+
         try:
             data = jwt.decode(token, public_key, algorithm='RS256')
 
@@ -42,6 +49,7 @@ def token_required(f):
 
         return f(user, *args, **kwargs)
 
+    decorated.func_name = f.func_name
     return decorated
 
 
@@ -51,10 +59,20 @@ def index(path):
     return render_template("index.html")
 
 
-@app.route('/getCredentials', methods=['POST'])
+@app.route('/getCredentials', methods=['GET'])
 @token_required
 def get_credentials(user):
-    return "data for user " + user;
+    return make_response('get user data', 200)
+
+
+@app.route('/logout', methods=['GET'])
+@token_required
+def logout(user):
+    token = request.headers['x-access-token']
+    print(token)
+    blacklist_service.blacklist(token)
+
+    return make_response('token has been blacklisted', 200)
 
 
 @app.route('/register', methods=['POST'])

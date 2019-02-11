@@ -20,6 +20,7 @@ import './App.css';
 import { ApiHandler } from "./api_handler";
 
 // take it is out class 
+var JWT_TOKEN;
 let SignOut = withRouter(({ history, signout }) => {
     return (
         <NavItem>
@@ -49,7 +50,6 @@ export default class App extends React.Component {
         super(props);
         this.dashboardData = null
         this.state = {
-            jwt_token: null,
             authenticated: false,
             alertInfo: null
         }
@@ -66,6 +66,7 @@ export default class App extends React.Component {
         let callSigninResponse = await ApiHandler.callSignin(username, password)
 
         if (callSigninResponse.status) {
+            JWT_TOKEN = callSigninResponse.jwt_token
             let callGetCredentialsResponse = await ApiHandler.callGetCredentials(callSigninResponse.jwt_token)
 
             if (callGetCredentialsResponse.status) {
@@ -80,6 +81,7 @@ export default class App extends React.Component {
     }
 
     signout() {
+        JWT_TOKEN = null
         this.setState({ authenticated: false });
     }
 
