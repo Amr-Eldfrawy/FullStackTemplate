@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request , make_response
+from flask import Flask, render_template, jsonify, request , make_response, redirect
 from flask_pymongo import PyMongo
 import jwt
 import datetime
@@ -45,8 +45,9 @@ def token_required(f):
     return decorated
 
 
-@app.route("/")
-def index():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
     return render_template("index.html")
 
 
