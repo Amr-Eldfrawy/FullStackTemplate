@@ -1,34 +1,21 @@
 import React, { Component } from "react";
 import {
     BrowserRouter as Router, Link, Route,
-    Redirect, withRouter
+    Redirect
 } from 'react-router-dom'
 import {
-    Navbar,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Collapse,
     Alert
 } from 'reactstrap'
 
 import Dashboard from './dashboard'
 import PMForm from './pmForm'
+import NavigationBar from './navigation_bar'
 
 import './App.css';
 import { ApiHandler } from "./api_handler";
 
 // take it is out class 
 var JWT_TOKEN;
-let SignOut = withRouter(({ history, signout }) => {
-    return (
-        <NavItem>
-            <NavLink onClick={() => { signout(() => history.push('/')) }}> LogOut </NavLink>
-        </NavItem>
-    );
-
-})
 // take it to it's own clas 
 const PrivateRoute = ({ component: Component, ...rest, authenticated, data }) => (
     <Route
@@ -67,6 +54,7 @@ export default class App extends React.Component {
 
         if (callSigninResponse.status) {
             JWT_TOKEN = callSigninResponse.jwt_token
+            // maybe moved to dashboard 
             let callGetCredentialsResponse = await ApiHandler.callGetCredentials(callSigninResponse.jwt_token)
 
             if (callGetCredentialsResponse.status) {
@@ -80,7 +68,8 @@ export default class App extends React.Component {
 
     }
 
-    signout() {
+    async signout() {
+        await ApiHandler.callLogout(JWT_TOKEN)
         JWT_TOKEN = null
         this.setState({ authenticated: false });
     }
@@ -96,59 +85,33 @@ export default class App extends React.Component {
 
     render() {
         // clean this a little 
-        let pmNavBar =
-            <Nav className="ml-auto" navbar>
-                <NavItem>
-                    <NavLink> <Link to={'/'}> Sign In</Link></NavLink>
-                </NavItem>
-
-                <NavItem>
-                    <NavLink>  <Link to={'/register'}>Register</Link></NavLink>
-                </NavItem>
-            </Nav >
-
-        if (this.state.authenticated) {
-            pmNavBar =
-                <Nav className="ml-auto" navbar>
-                    <NavItem>
-                        <NavLink> <Link to={'/dashboard'}>Dashboard</Link></NavLink>
-                    </NavItem>
-
-                    <SignOut signout={this.signout} />
-                </Nav >
-        }
         return (
             <Router>
                 <div>
-                    <Navbar color="light" light expand="md">
-                        <NavbarBrand> HU Password Manager</NavbarBrand>
-                        <Collapse navbar>
-                            {pmNavBar}
-                        </Collapse>
-                    </Navbar>
+                    <NavigationBar redirectToLogin={this.signout} authenticated={this.state.authenticated} />
+                    <Alert color="info" isOpen={(!this.state.alertInfo) ? false : true} toggle={this.onAlertDismiss} fade={false}>
+                        {this.state.alertInfo}
+                    </Alert>
 
-                    <main>
-                        <Alert color="info" isOpen={(!this.state.alertInfo) ? false : true} toggle={this.onAlertDismiss} fade={false}>
-                            {this.state.alertInfo}
-                        </Alert>
-                        {/* clean this a litte */}
 
-                        <Route exact path="/" component={(props) => {
-                            if (this.state.authenticated) {
-                                return (<Redirect to='/dashboard' />);
-                            } else {
-                                return (<PMForm authFn={this.authenticate} {...props} header={<h2>Login</h2>} />)
-                            }
-                        }} />
-                        <Route path="/register" component={(props) => {
-                            if (this.state.authenticated) {
-                                return (<Redirect to='/dashboard' />);
-                            } else {
-                                return (<PMForm authFn={this.register} {...props} header={<h2>Register</h2>} />)
-                            }
-                        }} />
-                        <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} data={this.dashboardData} />
-                    </main>
+                    <Route exact path="/" component={(props) => {
+                        if (this.state.authenticated) {
+                            return (<Redirect to='/dashboard' />);
+                        } else {
+                            return (<PMForm authFn={this.authenticate} {...props} header={<h2>Login</h2>} />)
+                        }
+                    }} />
+
+                    <Route path="/register" component={(props) => {
+                        if (this.state.authenticated) {
+                            return (<Redirect to='/dashboard' />);
+                        } else {
+                            return (<PMForm authFn={this.register} {...props} header={<h2>Register</h2>} />)
+                        }
+                    }} />
+
+                    <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} data={this.dashboardData} />
+
                 </div>
             </Router>
         );

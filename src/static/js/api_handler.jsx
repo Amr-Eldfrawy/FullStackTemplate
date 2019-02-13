@@ -10,7 +10,6 @@ const ApiHandler = {
                 "cache-control": "no-cache",
             },
             "processData": false,
-            "data": ""
         })
 
         if (response.ok) {
@@ -30,6 +29,19 @@ const ApiHandler = {
     // todo 
     async callGetCredentials(jwt_token) {
         return { status: true, dashboardData: 'my data' }
+    },
+    async callLogout(jwt_token) {
+        let response = await fetch('/logout', {
+            "crossDomain": true,
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache",
+                "x-access-token": jwt_token,
+            }
+        })
+
+        return response.ok
     },
     async callRegister(username, password) {
         let response = await fetch('/register', {

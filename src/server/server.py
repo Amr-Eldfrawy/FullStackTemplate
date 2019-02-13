@@ -69,7 +69,7 @@ def get_credentials(user):
 @token_required
 def logout(user):
     token = request.headers['x-access-token']
-    print(token)
+        
     blacklist_service.blacklist(token)
 
     return make_response('token has been blacklisted', 200)
