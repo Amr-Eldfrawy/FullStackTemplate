@@ -1,21 +1,22 @@
-from flask import Flask, render_template, jsonify, request , make_response, redirect
+from flask import Flask, render_template, jsonify, request, make_response
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
+
 import jwt
-import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
+from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+
 import traceback
 import os
-from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
-from services.blacklist_service import BlackListService
 
-blacklist_service = BlackListService()
+from services.blacklist_service import BlackListService
+from services.auth_service import AuthService
 
 jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
-dirname = os.path.dirname(__file__)
+dir_name = os.path.dirname(__file__)
 
-private_key = open(os.path.join(dirname,'jwt-key')).read()
-public_key = open(os.path.join(dirname, 'jwt-key.pub')).read()
+private_key = open(os.path.join(dir_name, 'jwt-key')).read()
+public_key = open(os.path.join(dir_name, 'jwt-key.pub')).read()
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
@@ -23,6 +24,9 @@ app.config['MONGO_DBNAME'] = 'frameworkTest'
 app.config["MONGO_URI"] = "mongodb://localhost:27017/frameworkTest"
 
 mongo = PyMongo(app)
+user_collection = mongo.db.users
+auth_service = AuthService(users_collection=user_collection, private_key=private_key, jwt=jwt)
+blacklist_service = BlackListService()
 
 
 def token_required(f):
@@ -40,12 +44,13 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, public_key, algorithm='RS256')
-
-            users_db = mongo.db.users
-            user = users_db.find_one({'_id': data['public_id']})
+            user = user_collection.find_one({'_id': ObjectId(data['public_id'])})
         except:
             traceback.print_exc()
-            return jsonify({'message': 'Token is invalid'}), 401
+            return jsonify({'message': 'failed to decode token. please sign in again '}), 400
+
+        if user is None:
+            return jsonify({'message': 'user attached is not valid. please register first'}), 400
 
         return f(user, *args, **kwargs)
 
@@ -69,47 +74,28 @@ def get_credentials(user):
 @token_required
 def logout(user):
     token = request.headers['x-access-token']
-        
     blacklist_service.blacklist(token)
-
-    return make_response('token has been blacklisted', 200)
+    return jsonify({"msg": "token has been blacklisted"}), 200
 
 
 @app.route('/register', methods=['POST'])
 def register():
-    name = request.json['name']
-    password = request.json['password']
+    registration_status = auth_service.register(request.json['name'], request.json['password'])
 
-    users_db = mongo.db.users
+    if registration_status is False:
+        return jsonify({'result': "couldn't create a new user. Please choose a different username"}), 400
 
-    # pbkdf2:sha256', salt_length=8
-    if users_db.find_one({'name': name}):
-        return make_response("couldn't create a new user. Please choose a different username", 400)
-
-    users_db.insert_one({'name': name, 'password': generate_password_hash(password)})
-
-    return jsonify({'result': True})
+    return jsonify(), 200
 
 
 @app.route('/login')
 def login():
-    users_db = mongo.db.users
-    auth_header = request.authorization
+    login_response = auth_service.login(request.authorization)
 
-    if not auth_header or not auth_header.username or not auth_header.password:
-        return make_response("missing auth header", 401)
+    if login_response.token is not None:
+        return jsonify({'token': login_response.token}), 200
 
-    user = users_db.find_one({'name': auth_header.username})
-    if not user:
-        return make_response("user do not exist", 401)
-
-    if check_password_hash(user['password'], auth_header.password):
-        token = jwt.encode({'public_id': str(user['_id']),
-                            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10)},
-                           private_key, algorithm='RS256')
-        return jsonify({'token': token.decode('UTF-8')})
-
-    return make_response("couldn't verify", 401)
+    return jsonify({'msg': login_response.error_msg}), 401
 
 
 if __name__ == "__main__":
