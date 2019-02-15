@@ -1,10 +1,11 @@
-from flask import Flask, render_template, jsonify, request, make_response
+from flask import Flask, render_template, jsonify, request
 from flask_pymongo import PyMongo
+from pymongo import ReturnDocument
 from bson.objectid import ObjectId
-
+from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
-
+from bson.json_util import dumps
 import traceback
 import os
 
@@ -25,6 +26,7 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/frameworkTest"
 
 mongo = PyMongo(app)
 user_collection = mongo.db.users
+user_credentials_collection = mongo.db.user_credentials
 auth_service = AuthService(users_collection=user_collection, private_key=private_key, jwt=jwt)
 blacklist_service = BlackListService()
 
@@ -67,7 +69,32 @@ def index(path):
 @app.route('/getCredentials', methods=['GET'])
 @token_required
 def get_credentials(user):
-    return make_response('get user data', 200)
+    user_id = ObjectId(user['_id'])
+    user_credentials = user_credentials_collection.find_one({'_id': user_id})
+
+    if user_credentials is None:
+        return jsonify({'data': None})
+
+    return jsonify({'data': user_credentials['credentials']})
+
+
+@app.route('/addCredential', methods=['POST'])
+@token_required
+def add_credentials(user):
+    user_id = ObjectId(user['_id'])
+    new_credentials = request.json['entry']
+    user_credentials = user_credentials_collection.find_one_and_update(
+        {'_id': user_id},
+        {
+            '$push': {
+                'credentials':
+                    {'email': new_credentials['email'], 'password': generate_password_hash(new_credentials['password'])}
+            }
+        },
+        upsert=True,
+        return_document=ReturnDocument.AFTER
+    )
+    return jsonify({'data': user_credentials['credentials']})
 
 
 @app.route('/logout', methods=['GET'])
