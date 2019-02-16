@@ -2,10 +2,11 @@ from flask import Flask, render_template, jsonify, request
 from flask_pymongo import PyMongo
 from pymongo import ReturnDocument
 from bson.objectid import ObjectId
-from werkzeug.security import generate_password_hash, check_password_hash
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+
 import jwt
 from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
-from bson.json_util import dumps
 import traceback
 import os
 
@@ -16,8 +17,11 @@ jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
 dir_name = os.path.dirname(__file__)
 
-private_key = open(os.path.join(dir_name, 'jwt-key')).read()
-public_key = open(os.path.join(dir_name, 'jwt-key.pub')).read()
+raw_private_key = open(os.path.join(dir_name, 'jwt-key')).read()
+raw_public_key = open(os.path.join(dir_name, 'jwt-key.pub')).read()
+
+private_key = PKCS1_OAEP.new(RSA.importKey(raw_private_key))
+public_key = PKCS1_OAEP.new(RSA.importKey(raw_public_key))
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
@@ -27,7 +31,7 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/frameworkTest"
 mongo = PyMongo(app)
 user_collection = mongo.db.users
 user_credentials_collection = mongo.db.user_credentials
-auth_service = AuthService(users_collection=user_collection, private_key=private_key, jwt=jwt)
+auth_service = AuthService(users_collection=user_collection, private_key=raw_private_key, jwt=jwt)
 blacklist_service = BlackListService()
 
 
@@ -45,7 +49,7 @@ def token_required(f):
             return jsonify({'message': 'Token is invalid'}), 401
 
         try:
-            data = jwt.decode(token, public_key, algorithm='RS256')
+            data = jwt.decode(token, raw_public_key, algorithm='RS256')
             user = user_collection.find_one({'_id': ObjectId(data['public_id'])})
         except:
             traceback.print_exc()
@@ -75,6 +79,9 @@ def get_credentials(user):
     if user_credentials is None:
         return jsonify({'data': None})
 
+    for credential in user_credentials['credentials']:
+        credential['password'] = private_key.decrypt(credential['password'].decode('base64'))
+
     return jsonify({'data': user_credentials['credentials']})
 
 
@@ -83,18 +90,30 @@ def get_credentials(user):
 def add_credentials(user):
     user_id = ObjectId(user['_id'])
     new_credentials = request.json['entry']
+
+    # reject duplication
+    existing_credentials = user_credentials_collection.find_one({'_id': user_id})
+    # can be searched better
+    if existing_credentials is not None:
+        for credential in existing_credentials['credentials']:
+            if credential['email'] == new_credentials['email']:
+                return jsonify({'msg': "can not add a new credential that exist already. Please use update."}), 400
+    # add new entry
     user_credentials = user_credentials_collection.find_one_and_update(
         {'_id': user_id},
         {
             '$push': {
                 'credentials':
-                    {'email': new_credentials['email'], 'password': generate_password_hash(new_credentials['password'])}
+                    {
+                        'email': new_credentials['email'],
+                        'password': public_key.encrypt(bytes(new_credentials['password'])).encode('base64')
+                     }
             }
         },
         upsert=True,
         return_document=ReturnDocument.AFTER
     )
-    return jsonify({'data': user_credentials['credentials']})
+    return jsonify({'data': user_credentials['credentials']}), 200
 
 
 @app.route('/logout', methods=['GET'])

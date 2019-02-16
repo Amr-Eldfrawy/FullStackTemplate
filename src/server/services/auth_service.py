@@ -31,7 +31,7 @@ class AuthService:
 
         if check_password_hash(user['password'], auth_header.password):
             token = self.jwt.encode({'public_id': str(user['_id']),
-                                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10)},
+                                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100)},
                                     self.private_key, algorithm='RS256')
             return LoginResponse(token=token.decode('UTF-8'), error_msg="")
 
