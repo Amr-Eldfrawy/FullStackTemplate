@@ -2,9 +2,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js && python ../server/server.py",
+    "remove_bundle": "rm -rf dist/bundle.js",
+    "build": "(npm run remove_bundle && webpack --config webpack.config.js && python ../server/server.py)",
     "clean": "rm -rf node_modules/ && npm install",
-    "dev-server": "webpack-dev-server --watch --config webpack.config.js --hot"
+    "dev-server": "./node_modules/.bin/webpack-dev-server --watch --config webpack.config.js --hot"
   },
   "babel": {
     "presets": [
@@ -31,10 +32,10 @@
     "reactstrap": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.29.0",
-    "webpack-cli": "^3.2.1"
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
   },
   "devDependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "webpack-dev-server": "^3.1.14"
+    "babel-plugin-transform-object-rest-spread": "^6.26.0"
   }
 }

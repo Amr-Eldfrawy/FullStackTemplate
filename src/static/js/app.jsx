@@ -74,7 +74,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        // clean this a little 
         return (
             <Router>
                 <div>

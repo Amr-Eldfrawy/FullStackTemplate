@@ -4,7 +4,7 @@ from pymongo import ReturnDocument
 from bson.objectid import ObjectId
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-
+import json
 import jwt
 from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
 import traceback
@@ -89,14 +89,15 @@ def get_credentials(user):
 @token_required
 def add_credentials(user):
     user_id = ObjectId(user['_id'])
-    new_credentials = request.json['entry']
+    new_email = request.get_json()["email"]
+    new_password = request.get_json()["password"]
 
     # reject duplication
     existing_credentials = user_credentials_collection.find_one({'_id': user_id})
     # can be searched better
     if existing_credentials is not None:
         for credential in existing_credentials['credentials']:
-            if credential['email'] == new_credentials['email']:
+            if credential['email'] == new_email:
                 return jsonify({'msg': "can not add a new credential that exist already. Please use update."}), 400
     # add new entry
     user_credentials = user_credentials_collection.find_one_and_update(
@@ -105,14 +106,18 @@ def add_credentials(user):
             '$push': {
                 'credentials':
                     {
-                        'email': new_credentials['email'],
-                        'password': public_key.encrypt(bytes(new_credentials['password'])).encode('base64')
+                        'email': new_email,
+                        'password': public_key.encrypt(bytes(new_password)).encode('base64')
                      }
             }
         },
         upsert=True,
         return_document=ReturnDocument.AFTER
     )
+
+    for credential in user_credentials['credentials']:
+        credential['password'] = private_key.decrypt(credential['password'].decode('base64'))
+
     return jsonify({'data': user_credentials['credentials']}), 200
 
 

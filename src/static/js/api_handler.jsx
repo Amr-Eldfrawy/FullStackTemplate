@@ -40,6 +40,23 @@ const ApiHandler = {
 
         return data;
     },
+    async callAddCredential(jwt_token, email, password) {
+        console.log(JSON.stringify({ email: email, password: password }))
+        let response = await fetch('/addCredential', {
+            "crossDomain": true,
+            "method": "POST",
+            "headers": {
+                "x-access-token": jwt_token,
+                "Content-Type": "application/json",
+                "cache-control": "no-cache",
+            },
+            "processData": false,
+            "body": JSON.stringify({ email: email, password: password })
+        })
+        let data = await response.json()
+
+        return data
+    },
     async callLogout(jwt_token) {
         let response = await fetch('/logout', {
             "crossDomain": true,
