@@ -26,9 +26,19 @@ const ApiHandler = {
         }
 
     },
-    // todo 
     async callGetCredentials(jwt_token) {
-        return { status: true, dashboardData: 'my data' }
+        return {
+            "data": [
+                {
+                    "email": "amr@gmail.com",
+                    "password": "Sba7o_saba71231212Iduqhwdlasbdquwd@asdiuqwd"
+                },
+                {
+                    "email": "amr123123@gmail.com",
+                    "password": "Sba7o_saba71231212Iduqhwdlasbdquwd@asdiuqwd"
+                }
+            ]
+        }
     },
     async callLogout(jwt_token) {
         let response = await fetch('/logout', {

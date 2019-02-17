@@ -17,17 +17,17 @@ import { ApiHandler } from "./api_handler";
 // take it is out class 
 var JWT_TOKEN;
 // take it to it's own clas 
-const PrivateRoute = ({ component: Component, ...rest, authenticated, data }) => (
+const PrivateRoute = ({ component: Component, ...rest, authenticated }) => (
     <Route
         {...rest}
         render={props =>
             authenticated
-                ? (<Component data={data} {...props} />)
+                ? (<Component jwt_token={JWT_TOKEN} {...props} />)
                 :
                 (<Redirect to={{
                     pathname: '/',
                     state: { from: rest.path }
-                }} Î />)
+                }}/>)
         }
     />
 );
@@ -37,7 +37,7 @@ export default class App extends React.Component {
         super(props);
         this.dashboardData = null
         this.state = {
-            authenticated: false,
+            authenticated: true,
             alertInfo: null
         }
         this.authenticate = this.authenticate.bind(this);
@@ -94,7 +94,7 @@ export default class App extends React.Component {
                     </Alert>
 
 
-                    <Route exact path="/" component={(props) => {
+                    <Route exact path="/dashboard" component={(props) => {
                         if (this.state.authenticated) {
                             return (<Redirect to='/dashboard' />);
                         } else {
@@ -110,7 +110,7 @@ export default class App extends React.Component {
                         }
                     }} />
 
-                    <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated} data={this.dashboardData} />
+                    <PrivateRoute path='/' component={Dashboard} authenticated={this.state.authenticated}/>
 
                 </div>
             </Router>

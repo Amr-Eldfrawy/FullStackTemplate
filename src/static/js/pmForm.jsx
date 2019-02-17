@@ -76,7 +76,6 @@ export default class PMForm extends React.Component {
         }
 
         return (
-
             <Form className="Form">
                 {this.props.header}
                 <Col>
