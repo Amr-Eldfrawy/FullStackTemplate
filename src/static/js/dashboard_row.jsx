@@ -35,10 +35,6 @@ export default class CredentialRawHolder extends React.Component {
         }
     };
 
-    copyClipboard() {
-        console.log("copied")
-    }
-
     render() {
         let passwordPlaceHolder = this.state.password;
         passwordPlaceHolder = passwordPlaceHolder.replace(/./g, '*')

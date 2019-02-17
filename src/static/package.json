@@ -3,9 +3,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js && python ../server/server.py",
-    "watch": "webpack --progress -d --config webpack.config.js --watch",
     "clean": "rm -rf node_modules/ && npm install",
-    "start": "webpack-dev-server --watch --config webpack.config.js --hot"
+    "dev-server": "webpack-dev-server --watch --config webpack.config.js --hot"
   },
   "babel": {
     "presets": [

@@ -37,7 +37,7 @@ export default class App extends React.Component {
         super(props);
         this.dashboardData = null
         this.state = {
-            authenticated: true,
+            authenticated: false,
             alertInfo: null
         }
         this.authenticate = this.authenticate.bind(this);
@@ -47,21 +47,11 @@ export default class App extends React.Component {
     }
 
     async authenticate(username, password) {
-        // make call using user usernme and password 
-        // if succss register token and redirect to dashboard with all loaded data
-        //  if falied alert thhat this is wrong credenitals 
         let callSigninResponse = await ApiHandler.callSignin(username, password)
 
         if (callSigninResponse.status) {
             JWT_TOKEN = callSigninResponse.jwt_token
-            // maybe moved to dashboard 
-            let callGetCredentialsResponse = await ApiHandler.callGetCredentials(callSigninResponse.jwt_token)
-
-            if (callGetCredentialsResponse.status) {
-                // this.dashboardData = callGetCredentialsResponse.dashboardData;
-                this.setState({ authenticated: true });
-            }
-
+            this.setState({ authenticated: true });
         } else {
             this.setState({ alertInfo: callSigninResponse.message })
         }
@@ -94,7 +84,7 @@ export default class App extends React.Component {
                     </Alert>
 
 
-                    <Route exact path="/dashboard" component={(props) => {
+                    <Route exact path="/" component={(props) => {
                         if (this.state.authenticated) {
                             return (<Redirect to='/dashboard' />);
                         } else {
@@ -110,7 +100,7 @@ export default class App extends React.Component {
                         }
                     }} />
 
-                    <PrivateRoute path='/' component={Dashboard} authenticated={this.state.authenticated}/>
+                    <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated}/>
 
                 </div>
             </Router>

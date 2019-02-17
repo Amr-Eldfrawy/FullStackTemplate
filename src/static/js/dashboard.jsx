@@ -16,12 +16,12 @@ export default class Dashboard extends React.Component {
         console.log(credentials.data)
 
         this.setState({
-            credentials: credentials.data
+            credentials: credentials.data || []
         })
     }
 
     render() {
-        let credentialGridHolder = []        
+        let credentialGridHolder = []
         for (let i = 0; i < this.state.credentials.length; i++) {
             credentialGridHolder.push(<CredentialRawHolder index={i} username={this.state.credentials[i].email}
                 password={this.state.credentials[i].password} />)
