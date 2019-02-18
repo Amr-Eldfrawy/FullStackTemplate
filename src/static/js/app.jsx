@@ -3,10 +3,6 @@ import {
     BrowserRouter as Router, Link, Route,
     Redirect
 } from 'react-router-dom'
-import {
-    Alert
-} from 'reactstrap'
-
 import Dashboard from './dashboard'
 import PMForm from './pmForm'
 import NavigationBar from './navigation_bar'
@@ -38,11 +34,9 @@ export default class App extends React.Component {
         this.dashboardData = null
         this.state = {
             authenticated: false,
-            alertInfo: null
         }
         this.authenticate = this.authenticate.bind(this);
         this.signout = this.signout.bind(this);
-        this.onAlertDismiss = this.onAlertDismiss.bind(this);
         this.register = this.register.bind(this);
     }
 
@@ -53,7 +47,7 @@ export default class App extends React.Component {
             JWT_TOKEN = callSigninResponse.jwt_token
             this.setState({ authenticated: true });
         } else {
-            this.setState({ alertInfo: callSigninResponse.message })
+            alert(callSigninResponse.message);
         }
 
     }
@@ -66,11 +60,7 @@ export default class App extends React.Component {
 
     async register(username, password) {
         let callRegisterCallResponse = await ApiHandler.callRegister(username, password)
-        this.setState({ alertInfo: callRegisterCallResponse.message })
-    }
-
-    onAlertDismiss() {
-        this.setState({ alertInfo: null });
+        confirm(callRegisterCallResponse.message);
     }
 
     render() {
@@ -78,11 +68,6 @@ export default class App extends React.Component {
             <Router>
                 <div>
                     <NavigationBar redirectToLogin={this.signout} authenticated={this.state.authenticated} />
-                    <Alert color="info" isOpen={(!this.state.alertInfo) ? false : true} toggle={this.onAlertDismiss} fade={false}>
-                        {this.state.alertInfo}
-                    </Alert>
-
-
                     <Route exact path="/" component={(props) => {
                         if (this.state.authenticated) {
                             return (<Redirect to='/dashboard' />);
@@ -100,7 +85,6 @@ export default class App extends React.Component {
                     }} />
 
                     <PrivateRoute path='/dashboard' component={Dashboard} authenticated={this.state.authenticated}/>
-
                 </div>
             </Router>
         );

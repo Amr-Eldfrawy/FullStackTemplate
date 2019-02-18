@@ -41,7 +41,6 @@ const ApiHandler = {
         return data;
     },
     async callAddCredential(jwt_token, email, password) {
-        console.log(JSON.stringify({ email: email, password: password }))
         let response = await fetch('/addCredential', {
             "crossDomain": true,
             "method": "POST",
@@ -53,9 +52,45 @@ const ApiHandler = {
             "processData": false,
             "body": JSON.stringify({ email: email, password: password })
         })
-        let data = await response.json()
+        let json = await response.json()
 
-        return data
+        if (response.ok) {
+            return {
+                status: true,
+                credentials: json.data
+            }
+        }
+
+        return {
+            status: false,
+            msg: json.msg
+        }
+    },
+    async callDeleteCredentials(jwt_token, email) {
+        let response = await fetch('/deleteCredential', {
+            "crossDomain": true,
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "x-access-token": jwt_token,
+                "cache-control": "no-cache",
+            },
+            "processData": false,
+            "body": JSON.stringify({ email: email })
+        })
+        let json = await response.json();
+        console.log(json)
+        if (response.ok) {
+            return {
+                status: true,
+                credentials: json.data
+            }
+        }
+
+        return {
+            status: false,
+            msg: json.msg
+        }
     },
     async callLogout(jwt_token) {
         let response = await fetch('/logout', {

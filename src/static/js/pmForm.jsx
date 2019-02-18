@@ -5,7 +5,6 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import { Redirect } from 'react-router-dom'
 
 export default class PMForm extends React.Component {
 
@@ -17,7 +16,6 @@ export default class PMForm extends React.Component {
         this.state = {
             validUserName: true,
             validPassword: true,
-            redirectToReferrer: false,
         }
         this.login = this.login.bind(this);
     }
@@ -29,8 +27,6 @@ export default class PMForm extends React.Component {
         } else {
             alert("please enter valid username and password")
         }
-
-        this.setState({ redirectToReferrer: true })
     }
 
 
@@ -66,15 +62,6 @@ export default class PMForm extends React.Component {
     }
 
     render() {
-
-        const redirectToReferrer = this.state.redirectToReferrer
-        const from = this.props.location.state && this.props.location.state.from ? this.props.location.state.from : '/'
-        if (redirectToReferrer === true) {
-            return (
-                <Redirect to={from} />
-            );
-        }
-
         return (
             <Form className="Form">
                 {this.props.header}

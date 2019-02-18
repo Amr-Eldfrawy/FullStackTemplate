@@ -11,6 +11,7 @@ module.exports = {
     resolve: {
         extensions: [".js", ".jsx", ".css"]
     },
+    cache: false,
     module: {
         rules: [
             {
@@ -28,7 +29,7 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, '/dist'),
+        contentBase: path.join(__dirname, '/'),
         port: 9000
     }
 };

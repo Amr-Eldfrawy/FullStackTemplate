@@ -87,7 +87,7 @@ def get_credentials(user):
 
 @app.route('/addCredential', methods=['POST'])
 @token_required
-def add_credentials(user):
+def add_credential(user):
     user_id = ObjectId(user['_id'])
     new_email = request.get_json()["email"]
     new_password = request.get_json()["password"]
@@ -114,6 +114,35 @@ def add_credentials(user):
         upsert=True,
         return_document=ReturnDocument.AFTER
     )
+
+    for credential in user_credentials['credentials']:
+        credential['password'] = private_key.decrypt(credential['password'].decode('base64'))
+
+    return jsonify({'data': user_credentials['credentials']}), 200
+
+
+@app.route('/deleteCredential', methods=['POST'])
+@token_required
+def delete_credential(user):
+    user_id = ObjectId(user['_id'])
+    email_to_delete = request.get_json()["email"]
+
+    user_credentials = user_credentials_collection.find_one_and_update(
+        {'_id': user_id},
+        {
+            '$pull': {
+                'credentials':
+                    {
+                        'email': email_to_delete,
+                    }
+            }
+        },
+        upsert=True,
+        return_document=ReturnDocument.AFTER
+    )
+
+    if user_credentials.get('credentials') is None:
+        return jsonify({'msg': "No credentials to delete"}), 400
 
     for credential in user_credentials['credentials']:
         credential['password'] = private_key.decrypt(credential['password'].decode('base64'))

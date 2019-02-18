@@ -4,17 +4,18 @@ import { Button } from 'reactstrap';
 export default class CredentialRawHolder extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: this.props.username,
-            password: this.props.password,
-            index: this.props.index
-        }
+
         this.copyToClipboard = this.copyToClipboard.bind(this)
+        this.delete = this.delete.bind(this)
+    }
+    
+    async delete() {
+        this.props.deleteCallback(this.props.email);
     }
 
     // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
     copyToClipboard() {
-        let str = this.state.password
+        let str = this.props.password
 
         const el = document.createElement('textarea');  // Create a <textarea> element
         el.value = str;                                 // Set its value to the string that you want copied
@@ -36,7 +37,7 @@ export default class CredentialRawHolder extends React.Component {
     };
 
     render() {
-        let passwordPlaceHolder = this.state.password;
+        let passwordPlaceHolder = this.props.password;
         passwordPlaceHolder = passwordPlaceHolder.replace(/./g, '*')
 
         if (passwordPlaceHolder.length > 7) {
@@ -46,9 +47,10 @@ export default class CredentialRawHolder extends React.Component {
         return (
             <tr>
                 <th scope="row">{this.props.index}</th>
-                <td>{this.state.username}</td>
+                <td>{this.props.email}</td>
                 <td>{passwordPlaceHolder}</td>
                 <td><Button onClick={this.copyToClipboard}>Copy Password</Button></td>
+                <td><Button onClick={this.delete}>Delete Credential</Button></td>
             </tr>
         );
     }
