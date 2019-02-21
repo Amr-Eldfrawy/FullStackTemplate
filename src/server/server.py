@@ -4,7 +4,6 @@ from pymongo import ReturnDocument
 from bson.objectid import ObjectId
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-import json
 import jwt
 from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
 import traceback
@@ -89,8 +88,8 @@ def get_credentials(user):
 @token_required
 def add_credential(user):
     user_id = ObjectId(user['_id'])
-    new_email = request.get_json()["email"]
-    new_password = request.get_json()["password"]
+    new_email = request.json['email']
+    new_password = request.json['password']
 
     # reject duplication
     existing_credentials = user_credentials_collection.find_one({'_id': user_id})
@@ -121,11 +120,83 @@ def add_credential(user):
     return jsonify({'data': user_credentials['credentials']}), 200
 
 
+@app.route('/editCredential',methods=['POST'])
+@token_required
+def edit_credential(user):
+    user_id = ObjectId(user['_id'])
+    # TODO add validation on values
+    old_email = request.get_json()["old_email"]
+
+    found = False
+    existing_credentials = user_credentials_collection.find_one({'_id': user_id})
+    # can be searched better
+    if existing_credentials is not None:
+        for credential in existing_credentials['credentials']:
+            if credential['email'] == old_email:
+                found = True
+                break
+
+    if found is False:
+        return jsonify({'msg': "Credential do not exist in the first place"}), 400
+
+    user_credentials_collection.find_one_and_update(
+        {'_id': user_id},
+        {
+            '$pull': {
+                'credentials':
+                    {
+                        'email': old_email,
+                    }
+            }
+        },
+        upsert=True,
+        return_document=ReturnDocument.AFTER
+    )
+
+    new_email = request.get_json()["new_email"]
+    new_password = request.get_json()["password"]
+
+    user_credentials = user_credentials_collection.find_one_and_update(
+        {'_id': user_id},
+        {
+            '$push': {
+                'credentials':
+                    {
+                        'email': new_email,
+                        'password': public_key.encrypt(bytes(new_password)).encode('base64')
+                    }
+            }
+        },
+        upsert=True,
+        return_document=ReturnDocument.AFTER
+    )
+
+    if user_credentials.get('credentials') is None:
+        return jsonify({'data': []}), 200
+
+    for credential in user_credentials['credentials']:
+        credential['password'] = private_key.decrypt(credential['password'].decode('base64'))
+
+    return jsonify({'data': user_credentials['credentials']}), 200
+
+
 @app.route('/deleteCredential', methods=['POST'])
 @token_required
 def delete_credential(user):
     user_id = ObjectId(user['_id'])
     email_to_delete = request.get_json()["email"]
+    found = False
+
+    existing_credentials = user_credentials_collection.find_one({'_id': user_id})
+    # can be searched better
+    if existing_credentials is not None:
+        for credential in existing_credentials['credentials']:
+            if credential['email'] == email_to_delete:
+                found = True
+                break
+
+    if found is False:
+        return jsonify({'msg': "Credential do not exist in the first place"}), 400
 
     user_credentials = user_credentials_collection.find_one_and_update(
         {'_id': user_id},
@@ -142,7 +213,7 @@ def delete_credential(user):
     )
 
     if user_credentials.get('credentials') is None:
-        return jsonify({'msg': "No credentials to delete"}), 400
+        return jsonify({'data': []}), 200
 
     for credential in user_credentials['credentials']:
         credential['password'] = private_key.decrypt(credential['password'].decode('base64'))

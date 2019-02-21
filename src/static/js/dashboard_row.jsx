@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from 'reactstrap';
+import CredentialModal from './credentials_pop_up'
 
 export default class CredentialRawHolder extends React.Component {
     constructor(props) {
@@ -8,7 +9,7 @@ export default class CredentialRawHolder extends React.Component {
         this.copyToClipboard = this.copyToClipboard.bind(this)
         this.delete = this.delete.bind(this)
     }
-    
+
     async delete() {
         this.props.deleteCallback(this.props.email);
     }
@@ -43,7 +44,6 @@ export default class CredentialRawHolder extends React.Component {
         if (passwordPlaceHolder.length > 7) {
             passwordPlaceHolder = passwordPlaceHolder.substring(0, 7)
         }
-
         return (
             <tr>
                 <th scope="row">{this.props.index}</th>
@@ -51,6 +51,8 @@ export default class CredentialRawHolder extends React.Component {
                 <td>{passwordPlaceHolder}</td>
                 <td><Button onClick={this.copyToClipboard}>Copy Password</Button></td>
                 <td><Button onClick={this.delete}>Delete Credential</Button></td>
+                <td><CredentialModal email={this.props.email} password={this.props.password}
+                    callback={this.props.editCallback} btnText="Edit Credential" /></td>
             </tr>
         );
     }

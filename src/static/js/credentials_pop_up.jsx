@@ -7,12 +7,12 @@ import {
   Button,
 } from 'reactstrap';
 
-export default class AddCredentialsModal extends React.Component {
+export default class CredentialModal extends React.Component {
   constructor(props) {
     super(props);
-
-    this.emailValue = null
-    this.passwordValue = null
+    this.oldEmailValue = this.props.email
+    this.emailValue = this.props.email
+    this.passwordValue = this.props.password
 
     this.state = {
       modal: false
@@ -21,7 +21,7 @@ export default class AddCredentialsModal extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.registeremail = this.registeremail.bind(this)
     this.registerPassword = this.registerPassword.bind(this)
-    this.trigerAddingCredentialCall = this.trigerAddingCredentialCall.bind(this);
+    this.trigerCallback = this.trigerCallback.bind(this);
   }
 
   toggle() {
@@ -40,24 +40,25 @@ export default class AddCredentialsModal extends React.Component {
     this.passwordValue = password;
   }
 
-  trigerAddingCredentialCall() {
+  trigerCallback() {
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
-    this.props.callback(this.emailValue, this.passwordValue)
+    this.props.callback(this.emailValue, this.passwordValue, this.oldEmailValue)
   }
 
 
   render() {
+    this.oldEmailValue = this.props.email
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}> Add New Credentials </Button>
+        <Button color="primary" onClick={this.toggle}> {this.props.btnText} </Button>
         <Modal size="lg" isOpen={this.state.modal} toggle={this.toggle} className="lg">
-          <ModalHeader toggle={this.toggle}>Adding A New Credentials</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.props.btnText}</ModalHeader>
           <ModalBody>
             <Col>
               <FormGroup>
-                <Label>Username</Label>
+                <Label>Email</Label>
                 <Input
                   type="email"
                   id="userNameInput"
@@ -65,6 +66,7 @@ export default class AddCredentialsModal extends React.Component {
                   onChange={e => {
                     this.registeremail(e)
                   }}
+                  defaultValue={this.props.email}
                 />
               </FormGroup>
             </Col>
@@ -72,18 +74,19 @@ export default class AddCredentialsModal extends React.Component {
               <FormGroup>
                 <Label for="examplePassword">Password</Label>
                 <Input
-                  type="password"
+                  type="text"
                   id="passwordInput"
                   placeholder="my password"
                   onChange={e => {
                     this.registerPassword(e)
                   }}
+                  defaultValue={this.props.password}
                 />
               </FormGroup>
             </Col>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.trigerAddingCredentialCall}>Add</Button>
+            <Button color="primary" onClick={this.trigerCallback}>Submit</Button>
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>

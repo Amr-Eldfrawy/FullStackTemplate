@@ -1,8 +1,8 @@
 import React from "react";
 import { ApiHandler } from "./api_handler";
-import { Table, Button, Container, Row, Col } from 'reactstrap';
+import { Table, Container } from 'reactstrap';
 import CredentialRawHolder from './dashboard_row'
-import AddCredentialsModal from './add_credentials_pop_up'
+import CredentialModal from './credentials_pop_up'
 
 export default class Dashboard extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ export default class Dashboard extends React.Component {
 
         this.addCredential = this.addCredential.bind(this)
         this.deleteCredential = this.deleteCredential.bind(this)
+        this.editCredential = this.editCredential.bind(this)
     }
 
     async componentWillMount() {
@@ -38,10 +39,7 @@ export default class Dashboard extends React.Component {
     }
 
     async deleteCredential(email) {
-        console.log("email to delete" + email)
         let deleteCredentialResponse = await ApiHandler.callDeleteCredentials(this.props.jwt_token, email)
-        console.log("delete response")
-        console.log(deleteCredentialResponse)
         if(deleteCredentialResponse.status) {
             this.setState({
                 credentials: deleteCredentialResponse.credentials || []
@@ -53,15 +51,30 @@ export default class Dashboard extends React.Component {
        
     }
 
+    async editCredential(new_email, password, old_email) {
+        if(!new_email || new_email.length == 0 || !password || password.length == 0 ||
+            !old_email || old_email.length == 0) {
+            alert('Can not set email/password to empty value');
+        }
+
+        let editCredentialResponse = await ApiHandler.callEditCredential(this.props.jwt_token, old_email, new_email, password)
+        if(editCredentialResponse.status) {
+            this.setState({
+                credentials: editCredentialResponse.credentials || []
+            })
+            alert("credentials was edited");
+        } else {
+            alert(editCredentialResponse.msg)
+        }
+       
+    }
+
     render() {
         let credentialGridHolder = []
         let credentials =  this.state.credentials
-        console.log("credentials to render")
-        console.log(credentials)
         for (let i = 0; i < credentials.length; i++) {
-            console.log()
             credentialGridHolder.push(<CredentialRawHolder key={i} index={i} email={credentials[i].email}
-                password={credentials[i].password} deleteCallback={this.deleteCredential}/>)
+                password={credentials[i].password} deleteCallback={this.deleteCredential} editCallback={this.editCredential}/>)
         }
         return (
             <Container>
@@ -73,6 +86,7 @@ export default class Dashboard extends React.Component {
                             <th>Password</th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +94,7 @@ export default class Dashboard extends React.Component {
                     </tbody>
                 </Table>
 
-                <AddCredentialsModal callback={this.addCredential} />
+                <CredentialModal callback={this.addCredential} btnText="Add New Credential"/>
 
             </Container>
         );

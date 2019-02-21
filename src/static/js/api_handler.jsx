@@ -79,7 +79,33 @@ const ApiHandler = {
             "body": JSON.stringify({ email: email })
         })
         let json = await response.json();
-        console.log(json)
+
+        if (response.ok) {
+            return {
+                status: true,
+                credentials: json.data
+            }
+        }
+
+        return {
+            status: false,
+            msg: json.msg
+        }
+    },
+    async callEditCredential(jwt_token, old_email, new_email, password) {
+        let response = await fetch('/editCredential', {
+            "crossDomain": true,
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "x-access-token": jwt_token,
+                "cache-control": "no-cache",
+            },
+            "processData": false,
+            "body": JSON.stringify({ old_email: old_email, new_email: new_email, password: password })
+        })
+        let json = await response.json();
+
         if (response.ok) {
             return {
                 status: true,
