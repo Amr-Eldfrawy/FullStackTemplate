@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from flask_pymongo import PyMongo
-from pymongo import ReturnDocument
+
 from bson.objectid import ObjectId
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
@@ -12,6 +12,10 @@ import os
 from services.blacklist_service import BlackListService
 from services.auth_service import AuthService
 from services.credentials_service import CredentialsService
+
+from services.missing_auth_header_exception import MissingAuthHeaderException
+from services.unrecognised_user_exception import UnrecognisedUserException
+from services.wrong_password_exception import WrongPasswordException
 
 jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
@@ -162,12 +166,19 @@ def register():
 
 @app.route('/login')
 def login():
-    login_response = auth_service.login(request.authorization)
+    try:
+        token = auth_service.login(request.authorization)
+    except MissingAuthHeaderException:
+        return jsonify({'msg': "missing auth header'"}), 401
+    except UnrecognisedUserException:
+        return jsonify({'msg': "user do not exist"}), 401
+    except WrongPasswordException:
+        return jsonify({'msg': "couldn't verify password"}), 401
 
-    if login_response.token is not None:
-        return jsonify({'token': login_response.token}), 200
+    if token is not None:
+        return jsonify({'token': token}), 200
 
-    return jsonify({'msg': login_response.error_msg}), 401
+    return jsonify({'msg': 'bad request'}), 400
 
 
 if __name__ == "__main__":

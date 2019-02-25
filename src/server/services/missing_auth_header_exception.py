@@ -1,0 +1,2 @@
+class MissingAuthHeaderException(Exception):
+    pass

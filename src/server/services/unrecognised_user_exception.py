@@ -1,0 +1,2 @@
+class UnrecognisedUserException(Exception):
+    pass
