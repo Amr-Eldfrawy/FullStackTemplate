@@ -17,6 +17,7 @@ from services.missing_auth_header_exception import MissingAuthHeaderException
 from services.unrecognised_user_exception import UnrecognisedUserException
 from services.wrong_password_exception import WrongPasswordException
 
+from crypto.aes_cipher import AESCipher
 jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
 dir_name = os.path.dirname(__file__)
@@ -66,7 +67,7 @@ def token_required(f):
         if user is None:
             return jsonify({'message': 'user attached is not valid. please register first'}), 400
 
-        return f(user, *args, **kwargs)
+        return f(user, data['key'], *args, **kwargs)
 
     decorated.func_name = f.func_name
     return decorated
@@ -80,19 +81,19 @@ def index(path):
 
 @app.route('/getCredentials', methods=['GET'])
 @token_required
-def get_credentials(user):
+def get_credentials(user, key):
     user_id = ObjectId(user['_id'])
 
+    aes_key = AESCipher(key, user['password'])
     encrypted_user_credentials = credential_service.read_all_credentials(user_id)
-
-    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, private_key)
+    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, aes_key)
 
     return jsonify({'data': decrypted_user_credentials['credentials']})
 
 
 @app.route('/addCredential', methods=['POST'])
 @token_required
-def add_credential(user):
+def add_credential(user, key):
     user_id = ObjectId(user['_id'])
     new_email = request.json['email']
     new_password = request.json['password']
@@ -100,17 +101,17 @@ def add_credential(user):
     if credential_service.user_has_email(user_id, new_email) is True:
         return jsonify({'msg': "can not add a new credential that exist already. Please use update."}), 400
 
+    aes_key = AESCipher(key, user['password'])
     encrypted_user_credentials = credential_service.add_credential_and_read_all(user_id, new_email, new_password,
-                                                                                public_key)
-
-    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, private_key)
+                                                                                aes_key)
+    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, aes_key)
 
     return jsonify({'data': decrypted_user_credentials['credentials']}), 200
 
 
 @app.route('/editCredential',methods=['POST'])
 @token_required
-def edit_credential(user):
+def edit_credential(user, key):
     # TODO add validation on values
     user_id = ObjectId(user['_id'])
 
@@ -123,32 +124,34 @@ def edit_credential(user):
     # add new email
     new_email = request.get_json()["new_email"]
     new_password = request.get_json()["password"]
+    aes_key = AESCipher(key, user['password'])
     encrypted_user_credentials = \
-        credential_service.add_credential_and_read_all(user_id, new_email, new_password, public_key)
-    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, private_key)
+        credential_service.add_credential_and_read_all(user_id, new_email, new_password, aes_key)
+    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, aes_key)
 
     return jsonify({'data': decrypted_user_credentials['credentials']}), 200
 
 
 @app.route('/deleteCredential', methods=['POST'])
 @token_required
-def delete_credential(user):
+def delete_credential(user, key):
     user_id = ObjectId(user['_id'])
     email_to_delete = request.get_json()["email"]
 
     if credential_service.user_has_email(user_id, email_to_delete) is False:
         return jsonify({'msg': "Credential do not exist in the first place"}), 400
 
+    aes_key = AESCipher(key, user['password'])
     encrypted_user_credentials = credential_service.delete_email_and_read_all(user_id, email_to_delete)
 
-    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, private_key)
+    decrypted_user_credentials = credential_service.decrypt_credentials(encrypted_user_credentials, aes_key)
 
     return jsonify({'data': decrypted_user_credentials['credentials']}), 200
 
 
 @app.route('/logout', methods=['GET'])
 @token_required
-def logout(user):
+def logout(user, key):
     token = request.headers['x-access-token']
     blacklist_service.blacklist(token)
     return jsonify({"msg": "token has been blacklisted"}), 200

@@ -31,9 +31,13 @@ class AuthService:
             raise UnrecognisedUserException
 
         if check_password_hash(user['password'], auth_header.password):
-            token = self.jwt.encode({'public_id': str(user['_id']),
-                                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100)},
-                                    self.private_key, algorithm='RS256')
+            token = self.jwt.encode(
+                {
+                    'public_id': str(user['_id']),
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100),
+                    'key': auth_header.password
+                },
+                    self.private_key, algorithm='RS256')
             return token.decode('UTF-8')
 
         raise WrongPasswordException

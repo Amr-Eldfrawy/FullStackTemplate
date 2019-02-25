@@ -14,7 +14,7 @@ class CredentialsService:
                     'credentials':
                         {
                             'email': email,
-                            'password': key.encrypt(bytes(plain_password)).encode('base64')
+                            'password': key.encrypt(plain_password)
                         }
                 }
             },
@@ -61,6 +61,6 @@ class CredentialsService:
             }
 
         for credential in user_credentials['credentials']:
-            credential['password'] = key.decrypt(credential['password'].decode('base64'))
+            credential['password'] = key.decrypt(credential['password'])
 
         return user_credentials
