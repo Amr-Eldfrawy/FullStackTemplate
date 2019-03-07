@@ -8,3 +8,4 @@ pycrypto==2.6.1
 PyJWT==1.7.1
 pymongo==3.7.2
 Werkzeug==0.14.1
+passlib=1.7.1

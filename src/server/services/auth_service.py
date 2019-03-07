@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .missing_auth_header_exception import MissingAuthHeaderException
 from .unrecognised_user_exception import UnrecognisedUserException
 from .wrong_password_exception import WrongPasswordException
+from passlib.hash import sha256_crypt
 import datetime
 
 
@@ -35,7 +36,7 @@ class AuthService:
                 {
                     'public_id': str(user['_id']),
                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100),
-                    'key': auth_header.password
+                    'key': sha256_crypt.encrypt(auth_header.password, rounds=1000, salt='')[16: 16 + 16]
                 },
                     self.private_key, algorithm='RS256')
             return token.decode('UTF-8')

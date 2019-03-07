@@ -7,14 +7,14 @@ unpad = lambda s : s[0:-ord(s[-1])]
 
 
 class AESCipher:
-    def __init__( self, key, hashed_key):
+    def __init__(self, key, hashed_key):
         self.key = key.encode('ascii', 'backslashreplace')
         self.hashed_key = hashed_key.encode('ascii', 'backslashreplace')
 
     def encrypt(self, raw):
-        raw =  raw.encode('ascii', 'backslashreplace')
+        raw = raw.encode('ascii', 'backslashreplace')
         raw = pad(raw)
-        iv = self.hashed_key[0 + 20 + 10: 16 + 20 + 10]
+        iv = self.hashed_key[30: 30 + 16]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         result = base64.b64encode(iv + cipher.encrypt(raw))
         return result
