@@ -35,7 +35,7 @@ class AuthService:
             token = self.jwt.encode(
                 {
                     'public_id': str(user['_id']),
-                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=100),
+                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10),
                     'key': sha256_crypt.encrypt(auth_header.password, rounds=1000, salt='')[16: 16 + 16]
                 },
                     self.private_key, algorithm='RS256')

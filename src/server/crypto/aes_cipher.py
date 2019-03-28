@@ -1,6 +1,8 @@
 from Crypto.Cipher import AES
 import base64
 
+# inspired by https://stackoverflow.com/questions/12524994/encrypt-decrypt-using-pycrypto-aes-256
+
 BS = 16
 pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 unpad = lambda s : s[0:-ord(s[-1])]
