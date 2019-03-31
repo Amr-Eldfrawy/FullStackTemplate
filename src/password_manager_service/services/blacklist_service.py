@@ -10,3 +10,6 @@ class BlackListService:
 
     def is_black_listed(self, token):
         return token in self.data_store
+
+    def clear_cache(self):
+        self.data_store.clear()

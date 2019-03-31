@@ -33,7 +33,6 @@ export default class PMForm extends React.Component {
     validateUserName(e) {
         const userName = e.target.value;
 
-        // console.log(userName.length)
         // if (!userName || userName.length == 0 || userName.length < 5) {
         //     this.setState({ validUserName: false });
         //     return

@@ -3,7 +3,7 @@
   "main": "index.js",
   "scripts": {
     "remove_bundle": "rm -rf dist/bundle.js",
-    "build": "(npm run remove_bundle && webpack --config webpack.config.js && python ../server/server.py)",
+    "build": "(npm run remove_bundle && webpack --config webpack.config.js && python ../password_manager_service/server.py)",
     "clean": "rm -rf node_modules/ && npm install",
     "dev-server": "./node_modules/.bin/webpack-dev-server --watch --config webpack.config.js --hot"
   },

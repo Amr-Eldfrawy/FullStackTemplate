@@ -1,0 +1,7 @@
+[
+  "test_server.py::test_given_new_user_signup_when_new_user_login_then_gets_a_valid_token", 
+  "test_server.py::test_given_old_user_when_user_signup_again_with_same_username_then_unauthorized_is_returned", 
+  "test_server.py::test_given_user_has_valid_token_when_calling_edit_credeitnals_then_credentials_are_updated", 
+  "test_server.py::test_given_user_has_valid_token_when_calling_add_credentials_then_new_credenials_are_added", 
+  "test_server.py::test_given_user_has_valid_token_when_calling_delete_credentials_then_credenials_are_deleted"
+]

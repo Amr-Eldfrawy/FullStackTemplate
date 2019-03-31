@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="00e1892c-ce3f-410c-8a09-990424bc6b3d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/password_manager_service/integration_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/password_manager_service/services/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/password_manager_service/services/test_auth_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/password_manager_service/services/test_blacklist_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/crypto/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/crypto/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/crypto/aes_cipher.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/crypto/aes_cipher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/jwt-key" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/jwt-key" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/jwt-key.pub" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/jwt-key.pub" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/crypto/test_aes_cipher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/auth_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/services/auth_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/blacklist_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/services/blacklist_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/credentials_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/services/credentials_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/missing_auth_header_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/services/missing_auth_header_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/unrecognised_user_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/services/unrecognised_user_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/services/wrong_password_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/password_manager_service/services/wrong_password_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/js/pmForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/js/pmForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/package.json" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/password_manager_service/integration_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="155" column="10" selection-start-line="155" selection-start-column="10" selection-end-line="155" selection-end-column="10" />
+              <folding>
+                <element signature="e#20#42#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/auth_service.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="507">
+              <caret line="44" column="36" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#73#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/test_auth_service.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1290">
+              <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
+              <folding>
+                <element signature="e#86#111#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/test_blacklist_service.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="44" lean-forward="true" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/password_manager_service/crypto/test_aes_cipher.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="215">
+              <caret line="19" column="13" lean-forward="true" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/blacklist_service.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>status</find>
+      <find>token_required</find>
+      <find>log</find>
+      <find>dele</find>
+      <find>edit</find>
+      <find>add_cred</find>
+      <find>logout</find>
+      <find>length</find>
+      <find>is_valid_token</find>
+      <find>Token is invalid'</find>
+      <find>token</find>
+      <find>delete</find>
+      <find>delete_credentials</find>
+      <find>AuthService</find>
+      <find>auth_service</find>
+      <find>hashed_key</find>
+      <find>jwt</find>
+      <find>mock</find>
+      <find>password</find>
+      <find>print</find>
+      <find>Crypto.PublicKey</find>
+      <find>pycrypto</find>
+      <find>check_password_hash</find>
+      <find>cr</find>
+      <find>server</find>
+      <find>crypto</find>
+      <find>pbkdf2:sha256:50000$OtdSXmd7$cb97cbe1a278106c333e432dbcd943c4bd7f3a1a42ea220ade795f77fbc7d9e0</find>
+      <find>login</find>
+      <find>xzwXZ2CoOI8Z/2QH</find>
+      <find>MagicMock</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/fullstack_template/static/package.json" />
+        <option value="$PROJECT_DIR$/fullstack_template/server/server.py" />
+        <option value="$PROJECT_DIR$/src/server/aes.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/src/static/js/index.jsx" />
+        <option value="$PROJECT_DIR$/src/static/index.html" />
+        <option value="$PROJECT_DIR$/src/server/blacklist_service.py" />
+        <option value="$PROJECT_DIR$/src/server/services/blacklist_service.py" />
+        <option value="$PROJECT_DIR$/setup.cfg" />
+        <option value="$PROJECT_DIR$/src/server/services/missing_auth_header_exception.py" />
+        <option value="$PROJECT_DIR$/src/server/services/login_response.py" />
+        <option value="$PROJECT_DIR$/src/server/missing_user.py" />
+        <option value="$PROJECT_DIR$/src/server/services/missing_user_exception.py" />
+        <option value="$PROJECT_DIR$/src/server/services/unrecognised_user_exception.py" />
+        <option value="$PROJECT_DIR$/src/server/services/wrong_password_exception.py" />
+        <option value="$PROJECT_DIR$/src/server/services/chiper.py" />
+        <option value="$PROJECT_DIR$/src/server/services/saba7.py" />
+        <option value="$PROJECT_DIR$/src/server/services/aes_cihper.py" />
+        <option value="$PROJECT_DIR$/src/server/aes_cipher.py" />
+        <option value="$PROJECT_DIR$/src/crypto/aes_cipher.py" />
+        <option value="$PROJECT_DIR$/src/server/services/credentials_service.py" />
+        <option value="$PROJECT_DIR$/src/server/services/auth_service.py" />
+        <option value="$PROJECT_DIR$/src/server/crypto/aes_cipher.py" />
+        <option value="$PROJECT_DIR$/src/server/server.py" />
+        <option value="$PROJECT_DIR$/.vscode/tst/server_test.py" />
+        <option value="$PROJECT_DIR$/tst/server_test.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/flaskr_tests.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/test_server.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/services/blacklist_service.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/crypto/test_aes_cipher.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/services/.pytest_cache/v/cache/stepwise" />
+        <option value="$PROJECT_DIR$/src/static/package.json" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/crypto/aes_cipher.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/server.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/services/auth_service.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/services/test_auth_service.py" />
+        <option value="$PROJECT_DIR$/src/password_manager_service/services/test_blacklist_service.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="PasswordManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PasswordManager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PasswordManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PasswordManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PasswordManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PasswordManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="password_manager_service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PasswordManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PasswordManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="password_manager_service" type="462c0819:PsiDirectoryNode" />
+              <item name="crypto" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PasswordManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PasswordManager" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="password_manager_service" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="PasswordManager" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="PasswordManager" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/server/" />
+      <recent name="$PROJECT_DIR$/src/crypto" />
+      <recent name="$PROJECT_DIR$/src/server" />
+      <recent name="$PROJECT_DIR$/src/server/services" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/static" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests for password_manager_service.integration_test">
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PasswordManager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/fullstack_template/server" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fullstack_template/server/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for password_manager_service.integration_test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="PasswordManager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/password_manager_service" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;password_manager_service.integration_test&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for server_test.NamesTestCase" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="PasswordManager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tst" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;server_test.NamesTestCase&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for server_test.TestFlaskApi.test_hello_world" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="PasswordManager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tst" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;server_test.TestFlaskApi.test_hello_world&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for tst.server_test.NamesTestCase.test_first_last_name" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="PasswordManager" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tst" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tst.server_test.NamesTestCase.test_first_last_name&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Unittests for password_manager_service.integration_test" />
+        <item itemvalue="Python tests.Unittests for server_test.TestFlaskApi.test_hello_world" />
+        <item itemvalue="Python tests.Unittests for server_test.NamesTestCase" />
+        <item itemvalue="Python tests.Unittests for tst.server_test.NamesTestCase.test_first_last_name" />
+        <item itemvalue="Python.server" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="00e1892c-ce3f-410c-8a09-990424bc6b3d" name="Default Changelist" comment="" />
+      <created>1549036407852</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1549036407852</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_server_test_NamesTestCase_test_first_last_name - 2019.03.28 at 17h 45m 44s.xml">
+      <configuration name="Unittests for server_test.NamesTestCase.test_first_last_name" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_server_test_NamesTestCase - 2019.03.28 at 17h 47m 05s.xml">
+      <configuration name="Unittests for server_test.NamesTestCase" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_server_test_TestFlaskApi_test_hello_world - 2019.03.28 at 17h 49m 34s.xml">
+      <configuration name="Unittests for server_test.TestFlaskApi.test_hello_world" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_flaskr_tests_FlaskrTestCase - 2019.03.28 at 18h 01m 18s.xml">
+      <configuration name="Unittests for flaskr_tests.FlaskrTestCase" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_password_manager_service_test_server - 2019.03.30 at 16h 04m 44s.xml">
+      <configuration name="Unittests for password_manager_service.test_server" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28435266" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32876712" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.30821916" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32846716" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.43941605" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.4150685" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32876712" />
+      <window_info anchor="bottom" id="Messages" order="11" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/password_manager_service/server.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file:///Library/Python/2.7/site-packages/crypto/Cipher/PKCS1_OAEP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2820">
+          <caret line="188" column="51" selection-start-line="188" selection-start-column="47" selection-end-line="188" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/crypto/PublicKey/RSA.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <caret line="589" column="33" selection-start-line="589" selection-start-column="24" selection-end-line="589" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/site-packages/jwt/api_jws.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="219" selection-start-line="219" selection-end-line="219" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/server/services/login_response.py" />
+    <entry file="file://$PROJECT_DIR$/src/server/services/saba7.py" />
+    <entry file="file:///Library/Python/2.7/site-packages/crypto/Hash/MD4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/hashlib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="31" column="9" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/crypto/Random/Fortuna/FortunaAccumulator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/pymongo/periodic_executor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="103" lean-forward="true" selection-start-line="103" selection-end-line="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/idlelib/IOBinding.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5670">
+          <caret line="392" column="8" selection-start-line="392" selection-start-column="8" selection-end-line="392" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/crypto/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/site-packages/jwt/api_jwt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2565">
+          <caret line="174" selection-start-line="174" selection-end-line="174" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/wrong_password_exception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/unrecognised_user_exception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/missing_auth_header_exception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/jwt-key.pub">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/jwt-key">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="36" lean-forward="true" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/python@2/2.7.15_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/threading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="358" selection-start-line="358" selection-end-line="358" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/credentials_service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/flask/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="69" column="6" selection-start-line="69" selection-start-column="6" selection-end-line="69" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/_jb_unittest_runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="e#15#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tst/server_test.py" />
+    <entry file="file:///Library/Python/2.7/site-packages/werkzeug/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-416">
+          <caret line="761" column="8" selection-start-line="761" selection-start-column="8" selection-end-line="761" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2018.3/python_stubs/-1247972723/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="4012" column="8" selection-start-line="4012" selection-start-column="8" selection-end-line="4012" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/unittest/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/2/unittest.pyi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-916" />
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/unittest/loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4335">
+          <caret line="298" column="20" selection-start-line="298" selection-start-column="20" selection-end-line="298" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/third_party/2and3/mock.pyi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1428">
+          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/werkzeug/security.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="233" column="4" selection-start-line="233" selection-start-column="4" selection-end-line="233" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/.pytest_cache/CACHEDIR.TAG">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/.pytest_cache/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/.pytest_cache/v/cache/stepwise">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/.pytest_cache/v/cache/lastfailed">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/.pytest_cache/v/cache/nodeids">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/static/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/base64.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/cgi.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="14" column="10" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/static/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4">
+          <caret line="5" column="124" selection-start-line="5" selection-start-column="124" selection-end-line="5" selection-end-column="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/requests-2.13.0-py2.7.egg/requests/auth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="13" lean-forward="true" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/crypto/Cipher/AES.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-818" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/crypto/PublicKey/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/crypto/aes_cipher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="62" lean-forward="true" selection-start-line="6" selection-start-column="62" selection-end-line="6" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/_pytest/python_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="555" column="4" selection-start-line="555" selection-start-column="4" selection-end-line="555" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="57" column="9" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/auth_service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="44" column="36" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/blacklist_service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/crypto/test_aes_cipher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="19" column="13" lean-forward="true" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/test_auth_service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1290">
+          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
+          <folding>
+            <element signature="e#86#111#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/services/test_blacklist_service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="44" lean-forward="true" selection-start-line="8" selection-start-column="44" selection-end-line="8" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/password_manager_service/integration_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="155" column="10" selection-start-line="155" selection-start-column="10" selection-end-line="155" selection-end-column="10" />
+          <folding>
+            <element signature="e#20#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

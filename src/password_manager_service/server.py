@@ -162,7 +162,7 @@ def register():
     registration_status = auth_service.register(request.json['name'], request.json['password'])
 
     if registration_status is False:
-        return jsonify({'result': "couldn't create a new user. Please choose a different username"}), 400
+        return jsonify({'msg': "couldn't create a new user. Please choose a different username"}), 400
 
     return jsonify(), 200
 

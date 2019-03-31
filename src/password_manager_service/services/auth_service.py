@@ -24,19 +24,20 @@ class AuthService:
         return True
 
     def login(self, auth_header):
-        if not auth_header or not auth_header.username or not auth_header.password:
+
+        if auth_header is None or auth_header.get('username') is None or  auth_header.get('password') is None:
             raise MissingAuthHeaderException
 
-        user = self.users_collection.find_one({'name': auth_header.username})
+        user = self.users_collection.find_one({'name': auth_header['username']})
         if not user:
             raise UnrecognisedUserException
 
-        if check_password_hash(user['password'], auth_header.password):
+        if check_password_hash(user['password'], auth_header['password']):
             token = self.jwt.encode(
                 {
                     'public_id': str(user['_id']),
                     'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=10),
-                    'key': sha256_crypt.encrypt(auth_header.password, rounds=1000, salt='')[16: 16 + 16]
+                    'key': sha256_crypt.encrypt(auth_header['password'], rounds=1000, salt='')[16: 32]
                 },
                     self.private_key, algorithm='RS256')
             return token.decode('UTF-8')
