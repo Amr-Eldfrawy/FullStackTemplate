@@ -1,7 +1,18 @@
 [
-  "test_server.py::test_given_new_user_signup_when_new_user_login_then_gets_a_valid_token", 
-  "test_server.py::test_given_old_user_when_user_signup_again_with_same_username_then_unauthorized_is_returned", 
-  "test_server.py::test_given_user_has_valid_token_when_calling_edit_credeitnals_then_credentials_are_updated", 
-  "test_server.py::test_given_user_has_valid_token_when_calling_add_credentials_then_new_credenials_are_added", 
-  "test_server.py::test_given_user_has_valid_token_when_calling_delete_credentials_then_credenials_are_deleted"
+  "integration_test.py::test_given_old_user_when_user_signup_again_with_same_username_then_unauthorized_is_returned", 
+  "integration_test.py::test_given_new_user_signup_when_new_user_login_then_gets_a_valid_token", 
+  "integration_test.py::test_given_existing_user_when_user_login_with_invalid_credentials_then_401", 
+  "integration_test.py::test_authorized_user_when_calling_logout_then_API_returns_200", 
+  "integration_test.py::test_given_a_blacklisted_token_when_calling_secured_API_then_API_returns_401", 
+  "integration_test.py::test_given_un_authorized_user_when_calling_get_credentials_then_401", 
+  "integration_test.py::test_given_authorized_user_when_calling_get_credentials_then_200", 
+  "integration_test.py::test_authorized_user_when_calling_edit_credeitnals_then_credentials_are_updated", 
+  "integration_test.py::test_unauthorized_user_when_calling_edit_credeitnals_then_401", 
+  "integration_test.py::test_authorized_user_when_calling_edit_credeitnals_with_wrong_payload_then_400", 
+  "integration_test.py::test_given_authorized_user_when_calling_add_credentials_then_new_credenials_are_added", 
+  "integration_test.py::test_given_unauthorized_user_when_calling_add_credential_then_401", 
+  "integration_test.py::test_given_authorized_user_when_calling_add_credential_for_existing_entry_then_400", 
+  "integration_test.py::test_authorized_user_when_calling_delete_credentials_then_credenials_are_deleted", 
+  "integration_test.py::test_unauthorized_user_token_when_calling_delete_credentials_then_401", 
+  "integration_test.py::test_authorized_user_token_when_calling_delete_credentials_with_wrong_payload_then_400"
 ]

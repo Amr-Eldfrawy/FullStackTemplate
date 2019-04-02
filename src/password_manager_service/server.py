@@ -62,10 +62,10 @@ def token_required(f):
             user = user_collection.find_one({'_id': ObjectId(data['public_id'])})
         except:
             traceback.print_exc()
-            return jsonify({'message': 'failed to decode token. please sign in again '}), 400
+            return jsonify({'message': 'failed to decode token. please sign in again '}), 401
 
         if user is None:
-            return jsonify({'message': 'user attached is not valid. please register first'}), 400
+            return jsonify({'message': 'user attached is not valid. please register first'}), 401
 
         return f(user, data['key'], *args, **kwargs)
 
@@ -172,11 +172,11 @@ def login():
     try:
         token = auth_service.login(request.authorization)
     except MissingAuthHeaderException:
-        return jsonify({'msg': "missing auth header'"}), 401
+        return jsonify({'msg': "missing auth header'"}), 400
     except UnrecognisedUserException:
-        return jsonify({'msg': "user do not exist"}), 401
+        return jsonify({'msg': "user do not exist"}), 400
     except WrongPasswordException:
-        return jsonify({'msg': "couldn't verify password"}), 401
+        return jsonify({'msg': "couldn't verify password"}), 400
 
     if token is not None:
         return jsonify({'token': token}), 200
