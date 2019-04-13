@@ -1,5 +1,5 @@
 from pymongo import ReturnDocument
-
+from mongosanitizer import sanitizer
 
 class CredentialsService:
 
@@ -7,6 +7,10 @@ class CredentialsService:
         self.credentials_collection = credentials_collection
 
     def add_credential_and_read_all(self, user_id, email, plain_password, key):
+        # mutate the existing query for nosql attacks
+        query = {'_id': user_id}
+        sanitizer.sanitize(query)
+
         return self.credentials_collection.find_one_and_update(
             {'_id': user_id},
             {
@@ -23,7 +27,11 @@ class CredentialsService:
         )
 
     def user_has_email(self, user_id, email):
-        existing_credentials = self.credentials_collection.find_one({'_id': user_id})
+        # mutate the existing query for nosql attacks
+        query = {'_id': user_id}
+        sanitizer.sanitize(query)
+
+        existing_credentials = self.credentials_collection.find_one(query)
         if existing_credentials is None or existing_credentials.get('credentials') is None:
             return False
 
@@ -35,8 +43,12 @@ class CredentialsService:
         return False
 
     def delete_email_and_read_all(self, user_id, email_to_delete):
+        # mutate the existing query for nosql attacks
+        query = {'_id': user_id}
+        sanitizer.sanitize(query)
+
         return self.credentials_collection.find_one_and_update(
-            {'_id': user_id},
+            query,
             {
                 '$pull': {
                     'credentials':
@@ -50,7 +62,11 @@ class CredentialsService:
         )
 
     def read_all_credentials(self, user_id):
-        return self.credentials_collection.find_one({'_id': user_id})
+        # mutate the existing query for nosql attacks
+        query = {'_id': user_id}
+        sanitizer.sanitize(query)
+
+        return self.credentials_collection.find_one(query)
 
     @staticmethod
     def decrypt_credentials(user_credentials, key):

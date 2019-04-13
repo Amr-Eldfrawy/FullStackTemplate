@@ -1,3 +1,4 @@
+from mongosanitizer import sanitizer
 from werkzeug.security import generate_password_hash, check_password_hash
 from .missing_auth_header_exception import MissingAuthHeaderException
 from .unrecognised_user_exception import UnrecognisedUserException
@@ -14,6 +15,9 @@ class AuthService:
         self.jwt = jwt
 
     def register(self, name, password):
+        # mutate the existing query for nosql attacks
+        query = {'name': name}
+        sanitizer.sanitize(query)
 
         # pbkdf2:sha256', salt_length=8
         if self.users_collection.find_one({'name': name}):
@@ -28,7 +32,11 @@ class AuthService:
         if auth_header is None or auth_header.get('username') is None or  auth_header.get('password') is None:
             raise MissingAuthHeaderException
 
-        user = self.users_collection.find_one({'name': auth_header['username']})
+        # mutate the existing query for nosql attacks
+        query = {'name': auth_header['username']}
+        sanitizer.sanitize(query)
+
+        user = self.users_collection.find_one(query)
         if not user:
             raise UnrecognisedUserException
 
