@@ -1,8 +1,9 @@
 import React from "react";
 import { ApiHandler } from "./api_handler";
-import { Table, Container } from 'reactstrap';
+import { Table, Container, Button, Row, Col} from 'reactstrap';
 import CredentialRawHolder from './dashboard_row'
 import CredentialModal from './credentials_pop_up'
+import { generatePassword } from './password_manager' 
 
 export default class Dashboard extends React.Component {
     constructor(props) {
@@ -93,9 +94,16 @@ export default class Dashboard extends React.Component {
                         {credentialGridHolder}
                     </tbody>
                 </Table>
-
-                <CredentialModal callback={this.addCredential} btnText="Add New Credential"/>
-
+                <Row>
+                    <Col>
+                        <CredentialModal callback={this.addCredential} btnText="Add New Credential"/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Button color="primary" onClick={() => generatePassword()}> Generate New Password </Button>
+                    </Col>
+                </Row>
             </Container>
         );
     }
