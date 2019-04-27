@@ -146,7 +146,7 @@ const ApiHandler = {
             return { message: 'An account was created. please sign in' }
 
         }
-        return { message: 'this account already exist' }
+        return { message: 'failed to register. either this username is already taken or not whitelisted' }
     }
 }
 

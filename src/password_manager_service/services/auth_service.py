@@ -9,8 +9,9 @@ import datetime
 
 class AuthService:
 
-    def __init__(self, users_collection, private_key, jwt):
+    def __init__(self, users_collection, whitelisted_users, private_key, jwt):
         self.users_collection = users_collection
+        self.whitelisted_users = whitelisted_users
         self.private_key = private_key
         self.jwt = jwt
 
@@ -20,13 +21,23 @@ class AuthService:
         sanitizer.sanitize(query)
 
         # pbkdf2:sha256', salt_length=8
-        if self.users_collection.find_one({'name': name}):
+        if self.users_collection.find_one({'name': name}) or self.is_whitelisted_user(name) is False:
             return False
 
         self.users_collection.insert_one({'name': name, 'password': generate_password_hash(password)})
 
         return True
 
+    def is_whitelisted_user(self, username):
+        # mutate the existing query for nosql attacks
+        query = {'name': username}
+        sanitizer.sanitize(query)
+
+        if not self.whitelisted_users.find_one(query):
+            return False
+
+        return True
+    
     def login(self, auth_header):
 
         if auth_header is None or auth_header.get('username') is None or  auth_header.get('password') is None:

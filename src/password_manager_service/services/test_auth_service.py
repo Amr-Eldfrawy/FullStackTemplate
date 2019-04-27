@@ -18,12 +18,15 @@ from ..server import raw_public_key as mock_public_key
 def test_given_valid_auth_header_when_calling_login_then_token_is_returned():
     # given
     mock_user_collection = Mock()
+    mock_whitelisted_collection = Mock()
     mock_user_collection.find_one.return_value = {
         # hashed version of 'test' with salt
         'password': "pbkdf2:sha256:50000$OtdSXmd7$cb97cbe1a278106c333e432dbcd943c4bd7f3a1a42ea220ade795f77fbc7d9e0",
+        'name' : 'dummy_name',
         '_id': 'some_id'
     }
-    auth_service = AuthService(mock_user_collection, mock_private_key, jwt)
+
+    auth_service = AuthService(mock_user_collection, mock_whitelisted_collection, mock_private_key, jwt)
 
     # when
     token = auth_service.login({"username": 'test', 'password': 'test'})
@@ -41,7 +44,8 @@ def test_given_valid_auth_header_when_calling_login_then_token_is_returned():
 def test_given_invalid_header_when_calling_login_then_MissingAuthHeaderException_is_returned():
     # given
     mock_user_collection = Mock()
-    auth_service = AuthService(mock_user_collection, mock_private_key, jwt)
+    mock_whitelisted_collection = Mock()
+    auth_service = AuthService(mock_user_collection, mock_whitelisted_collection, mock_private_key, jwt)
 
     # then
     with raises(MissingAuthHeaderException):
@@ -53,26 +57,60 @@ def test_given_invalid_header_when_calling_login_then_MissingAuthHeaderException
     with raises(MissingAuthHeaderException):
         auth_service.login(None)
 
-def test_given_unrecognised_user_when_calling_login_then_UnrecognisedUserException_is_returned():
+def test_given_unwhitelisted_and_not_registerd_before_user_when_calling_register_then_user_is_not_registerd():
+     # given
+    mock_user_collection = Mock()
+    mock_user_collection.find_one.return_value = False
+
+    mock_whitelisted_collection = Mock()
+    mock_whitelisted_collection.find_one.return_value = False
+
+    auth_service = AuthService(mock_user_collection, mock_whitelisted_collection, mock_private_key, jwt)
+
+    # when 
+    status = auth_service.register("test", "password")
+
+    # then
+    assert status is False
+
+def test_given_whitelisted_and_not_registerd_before_user_when_calling_register_then_user_is_registerd():
     # given
     mock_user_collection = Mock()
     mock_user_collection.find_one.return_value = False
-    auth_service = AuthService(mock_user_collection, mock_private_key, jwt)
+
+    mock_whitelisted_collection = Mock()
+    mock_whitelisted_collection.find_one.return_value = True
+
+    auth_service = AuthService(mock_user_collection, mock_whitelisted_collection, mock_private_key, jwt)
+
+    # when 
+    status = auth_service.register("test", "password")
+
+    # then
+    assert status is True
+
+
+def test_given_not_registered_user__when_calling_login_then_UnrecognisedUserException_is_returned():
+    # given
+    mock_user_collection = Mock()
+    mock_whitelisted_collection = Mock()
+    mock_user_collection.find_one.return_value = False
+    auth_service = AuthService(mock_user_collection, mock_whitelisted_collection, mock_private_key, jwt)
 
     # then
     with raises(UnrecognisedUserException):
         auth_service.login({'username': 'test', "password": 'test'})
 
-
 def test_given_invalid_password_when_calling_login_then_WrongPasswordException_is_returned():
     # given
     mock_user_collection = Mock()
+    mock_whitelisted_collection = Mock()
     mock_user_collection.find_one.return_value = {
         # hashed version of 'test' with salt
         'password': "pbkdf2:sha256:50000$OtdSXmd7$cb97cbe1a278106c333e432dbcd943c4bd7f3a1a42ea220ade795f77fbc7d9e0",
         '_id': 'some_id'
     }
-    auth_service = AuthService(mock_user_collection, mock_private_key, jwt)
+    auth_service = AuthService(mock_user_collection, mock_whitelisted_collection, mock_private_key, jwt)
 
     # then
     with raises(WrongPasswordException):

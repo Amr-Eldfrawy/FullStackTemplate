@@ -16,6 +16,13 @@ def test_given_old_user_when_user_signup_again_with_same_username_then_unauthori
     assert response.status_code == 400
     assert response.json['msg'] == "couldn't create a new user. Please choose a different username"
 
+# signup
+def test_given_nonwhitelisted_user_when_user_signup_then_400():
+    # when
+    response = register_account('nonwhitelistedUser', 'test')
+
+    # then
+    assert response.status_code == 400
 
 # login
 def test_given_new_user_signup_when_new_user_login_then_gets_a_valid_token():

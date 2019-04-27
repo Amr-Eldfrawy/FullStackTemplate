@@ -36,7 +36,8 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/frameworkTest"
 mongo = PyMongo(app)
 
 user_collection = mongo.db.users
-auth_service = AuthService(users_collection=user_collection, private_key=raw_private_key, jwt=jwt)
+whitelisted_users = mongo.db.whitelisted_users
+auth_service = AuthService(users_collection=user_collection, whitelisted_users=whitelisted_users, private_key=raw_private_key, jwt=jwt)
 
 user_credentials_collection = mongo.db.user_credentials
 credential_service = CredentialsService(credentials_collection=user_credentials_collection)
