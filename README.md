@@ -50,7 +50,7 @@ add 2 users, ``test`` and ``DemoAccount12`` under  ```whitelisted_users```
 
 Also, make sure that database is listening on port 27017 
 
-#### Run Website
+#### 3) Run Website
 open another terminal tab and run the following: 
 1. run ```pipenv install``` in the same directory as ```Pipfile```  
 2. run ```pipenv shell```
@@ -58,7 +58,7 @@ open another terminal tab and run the following:
 4. run ```npm run build ```
 
 
-#### Run Tests (Optional)
+#### 4) Run Tests (Optional)
 
 1. run ```pipenv install``` in the same directory as ```Pipfile```  
 2. run ```pipenv shell```
