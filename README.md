@@ -3,7 +3,7 @@
 https://www.mongodb.com/download-center/community
 ##### mac 
 1. install hombrew ```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
-2. install mongodb ```brew install mongodb```
+2. install mongodb  by following ```Install and Run MongoDB with Homebrew``` in https://treehouse.github.io/installation-guides/mac/mongo-mac.html
 3. assert mongo installation ```mongo -version```
 4. optional. install mongocompass https://docs.mongodb.com/compass/master/install/
 "MongoDB Compass is the GUI for MongoDB. Compass allows you to analyze and understand the contents of your data without formal knowledge of MongoDB query syntax"
@@ -21,11 +21,20 @@ https://www.npmjs.com/get-npm
 3. Test Node ```node -v```
 4. Test npm ```npm -v```
 
+####  webpack and webpack-cli
+1. install webpack globally ```npm install --global webpack```
+1. install webpack-cli globally ```npm install --global webpack-cli``` 
+
 ### Run Application - Demo
 
-#### Add Whitelisted Users (Once)
+#### 1) Run Mongodb Server
+open a terminal tab/shell and run ```mongod``` to run a mongodb local server.
+ 
+
+#### 2) Add Whitelisted Users (Once)
+
 run the following commands line by line in your shell to add one test account for running tests and another for the demo.
-you need this if you did not install mongodb compass 
+you need this if you did not install mongodb compass. 
 ```
 $ mongo
 $ use password_manager_db
@@ -40,9 +49,6 @@ with a collection/table named ```whitelisted_users``` with one column named ```n
 add 2 users, ``test`` and ``DemoAccount12`` under  ```whitelisted_users```
 
 Also, make sure that database is listening on port 27017 
-
-#### Run Mongodb Server
-open a terminal tab/shell and run ```mongod``` to run a mongodb local server 
 
 #### Run Website
 open another terminal tab and run the following: 
