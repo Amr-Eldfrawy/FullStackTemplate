@@ -30,8 +30,8 @@ public_key = PKCS1_OAEP.new(RSA.importKey(raw_public_key))
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
-app.config['MONGO_DBNAME'] = 'frameworkTest'
-app.config["MONGO_URI"] = "mongodb://localhost:27017/frameworkTest"
+app.config['MONGO_DBNAME'] = 'password_manager_db'
+app.config["MONGO_URI"] = "mongodb://localhost:27017/password_manager_db"
 
 mongo = PyMongo(app)
 
