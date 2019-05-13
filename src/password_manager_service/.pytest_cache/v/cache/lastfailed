@@ -1,7 +1,0 @@
-{
-  "integration_test.py::test_given_unauthorized_user_when_calling_add_credential_then_400": true, 
-  "test_server.py::test_given_new_user_signup_when_new_user_login_then_gets_a_valid_token": true, 
-  "test_server.py::test_given_user_has_valid_token_when_calling_add_credentials_then_new_credenials_are_added": true, 
-  "test_server.py::test_given_user_has_valid_token_when_calling_delete_credentials_then_credenials_are_deleted": true, 
-  "test_server.py::test_given_user_has_valid_token_when_calling_edit_credeitnals_then_credentials_are_updated": true
-}
